@@ -99,7 +99,7 @@
             margin-top: 15px;
         }
         .btn-voltar:hover {
-            background: #doc2626;
+            background: #dc2626;
             color: white;
         }
         .result-box {
@@ -171,39 +171,32 @@
 </div>
 
 <script>
-    const chavesMestras = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"];
-    let chavesDoBot = [];
-
-    async function sincronizarKeys() {
-        try {
-            const resposta = await fetch('https://raw.githubusercontent.com/draftstore8-debug/Bot-vip/main/keys-ativas.json?t=' + new Date().getTime());
-            if(resposta.ok) {
-                const textoDoArquivo = await resposta.text();
-                try { chavesDoBot = JSON.parse(textoDoArquivo); } catch(errJson) {}
-            }
-        } catch(e) {}
-    }
-    sincronizarKeys();
-
+    // Sistema Automático Inteligente
     function verificarKey() {
         const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
-        if (chavesMestras.includes(keyDigitada) || (Array.isArray(chavesDoBot) && chavesDoBot.includes(keyDigitada))) {
+        
+        // REGRAS AUTOMÁTICAS:
+        // 1. Aceita as chaves de teste fixas
+        // 2. Aceita QUALQUER chave gerada pelo seu bot que comece com "SENSI-" e tenha mais de 10 letras
+        const ehChaveFixa = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"].includes(keyDigitada);
+        const ehChaveDoBot = keyDigitada.startsWith("SENSI-") && keyDigitada.length >= 10;
+
+        if (ehChaveFixa || ehChaveDoBot) {
             alert("🎉 Acesso VIP Autorizado!");
             document.getElementById('tela-login').style.display = 'none';
             document.getElementById('conteudo-vip').style.display = 'block';
         } else {
-            alert("❌ Chave VIP inválida!");
+            alert("❌ Chave VIP inválida! Use uma key válida gerada no Discord.");
         }
     }
 
-    // BANCO DE DADOS ATUALIZADO E MELHORADO (SENSI REFINADA)
     const marcasDados = {
         iphone: {
             titulo: "🍏 MODELOS IPHONE (iOS)",
             modelos: [
                 { nome: "iPhone 8 / 8 Plus", geral: "92", reddot: "85", m2x: "94", m4x: "89", dpi: "Acessibilidade: Cursor Móvel em 115", ponteiro: "Velocidade: Rápida", regedit: "HSH_TRACKING_IOS8=TRUE (Lock-On)" },
                 { nome: "iPhone X / XR / XS", geral: "95", reddot: "91", m2x: "96", m4x: "92", dpi: "Acessibilidade: Cursor Móvel em 120 (Refinado)", ponteiro: "Velocidade: Máxima", regedit: "BYPASS_SMOOTH_XR=1 (No-Recoil)" },
-                { nome: "iPhone 11 / 11 Pro Max", geral: "98", reddot: "94", m2x: "98", m4x: "95", dpi: "Acessibilidade: Cursor Móvel em 120 (Preciso)", ponteiro: "Velocidade: Máxima", regedit: "AIM_ASSIST_IP11_VIP=TRUE (Gruda Mente)" },
+                { nome: "iPhone 11 / 11 Pro Max", geral: "100", reddot: "94", m2x: "98", m4x: "95", dpi: "Acessibilidade: Cursor Móvel em 120 (Preciso)", ponteiro: "Velocidade: Máxima", regedit: "AIM_ASSIST_IP11_VIP=TRUE (Gruda Mente)" },
                 { nome: "iPhone 12 / 12 Pro", geral: "94", reddot: "89", m2x: "95", m4x: "91", dpi: "Acessibilidade: Cursor Móvel em 118", ponteiro: "Velocidade: Rápida", regedit: "STABILIZER_V2_IP12=1" },
                 { nome: "iPhone 13 / 13 Pro Max", geral: "100", reddot: "95", m2x: "99", m4x: "96", dpi: "Acessibilidade: Cursor Móvel em 120 Max", ponteiro: "Velocidade: Máxima", regedit: "FULL_HSH_GLITCH_IP13=TRUE" },
                 { nome: "iPhone 14 / 14 Pro Max", geral: "97", reddot: "92", m2x: "96", m4x: "93", dpi: "Acessibilidade: Cursor Móvel em 120 Individual", ponteiro: "Velocidade: Máxima", regedit: "AIM_LOCK_PRO_V4=1" },
@@ -215,8 +208,8 @@
         samsung: {
             titulo: "📱 MODELOS SAMSUNG",
             modelos: [
-                { nome: "Samsung Galaxy A10 / A20 / A30", geral: "96", reddot: "88", m2x: "93", m4x: "91", dpi: "DPI: 580", ponteiro: "Velocidade: +3 cliques", regedit: "SAMSUNG_A_BOOST_V2=1" },
-                { nome: "Samsung Galaxy A54 / A73 (Sensi Alta)", geral: "99", reddot: "93", m2x: "97", m4x: "95", dpi: "DPI: 720", ponteiro: "Velocidade: Máxima | Atraso Toque: Curto", regedit: "TOUCH_FIX_REGEDIT=TRUE" },
+                { nome: "Samsung Galaxy A10 / A20 / A30", geral: "96", reddot: "88", m2x: "93", m4x: "91", dpi: "DPI: 580", ponteiro: "Velocidade: +3 cliques", regedit: "SAMSUNG_A_BOOST_V2_VIP=1" },
+                { nome: "Samsung Galaxy A54 / A73 (Sensi Alta)", geral: "99", reddot: "93", m2x: "97", m4x: "95", dpi: "DPI: 720", ponteiro: "Velocidade: Máxima | Atraso: Curto", regedit: "TOUCH_FIX_REGEDIT=TRUE" },
                 { nome: "Samsung Galaxy S20 / S21 FE", geral: "95", reddot: "90", m2x: "94", m4x: "92", dpi: "DPI: 600", ponteiro: "Velocidade: Máxima", regedit: "AIM_TRACK_S_SERIES=1" },
                 { nome: "Samsung Galaxy S22 / S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", dpi: "DPI: 800", ponteiro: "Velocidade: Máxima | Clique Curto", regedit: "S_ULTRA_AIMBOT_BOOSTER=TRUE" },
                 { nome: "Samsung Galaxy S24 Ultra (VIP)", geral: "100", reddot: "98", m2x: "100", m4x: "99", dpi: "DPI: 960", ponteiro: "Velocidade: Ultra Rápida (0.3ms)", regedit: "S24_GOD_STABILIZER=1" }
@@ -235,8 +228,8 @@
         motorola: {
             titulo: "📱 MODELOS MOTOROLA",
             modelos: [
-                { nome: "Moto G8 / G9 / G22 / G30", geral: "98", reddot: "90", m2x: "95", m4x: "93", dpi: "DPI: 540 | Atraso de Permanência: Mínimo", ponteiro: "Velocidade: Máxima", regedit: "MOTO_G_BOOST=TRUE" },
-                { nome: "Moto G60 / G82 / G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", dpi: "DPI: 620 | Taxa de Atualização Alta", ponteiro: "Velocidade: Máxima", regedit: "PERFECT_HIT_MOTO=1" },
+                { nome: "Moto G8 / G9 / G22 / G30", geral: "98", reddot: "90", m2x: "95", m4x: "93", dpi: "DPI: 540 | Atraso: Mínimo", ponteiro: "Velocidade: Máxima", regedit: "MOTO_G_BOOST=TRUE" },
+                { nome: "Moto G60 / G82 / G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", dpi: "DPI: 620 | Taxa Alta", ponteiro: "Velocidade: Máxima", regedit: "PERFECT_HIT_MOTO=1" },
                 { nome: "Motorola Edge 30 / 40 Neo", geral: "96", reddot: "92", m2x: "94", m4x: "92", dpi: "DPI: 590 | Feedback Tátil Rápido", ponteiro: "Velocidade: Centro + 1", regedit: "EDGE_AIM_ASSIST=TRUE" },
                 { nome: "Motorola Edge 50 Ultra (VIP)", geral: "100", reddot: "98", m2x: "100", m4x: "99", dpi: "DPI: 710 | Sensibilidade ao Toque Max", ponteiro: "Velocidade: Rápida Total", regedit: "MOTO_ULTRA_STABILIZER_V9=1" }
             ]
@@ -246,7 +239,7 @@
             modelos: [
                 { nome: "Infinix Hot 11 / Hot 12 / Play", geral: "97", reddot: "88", m2x: "94", m4x: "91", dpi: "DPI: 520 | XArena Ligado", ponteiro: "Velocidade: No Máximo", regedit: "INFINIX_HOT_BOOSTER=TRUE" },
                 { nome: "Infinix Note 12 / Note 30 Pro", geral: "100", reddot: "93", m2x: "97", m4x: "95", dpi: "DPI: 600 | Amostragem de Toque Max", ponteiro: "Velocidade: Rápida", regedit: "INFINIX_NOTE_AIMLOCK=1" },
-                { nome: "Infinix Zero 30 / Zero Ultra VIP", geral: "100", reddot: "96", m2x: "99", m4x: "97", dpi: "DPI: 640 | Renderização da GPU Ativa", ponteiro: "Velocidade: Máxima Total", regedit: "INFINIX_ZERO_TRACKING=TRUE" }
+                { nome: "Infinix Zero 30 / Zero Ultra VIP", geral: "100", reddot: "96", m2x: "99", m4x: "97", dpi: "DPI: 640 | Renderização GPU Ativa", ponteiro: "Velocidade: Máxima Total", regedit: "INFINIX_ZERO_TRACKING=TRUE" }
             ]
         },
         realme: {
@@ -254,7 +247,7 @@
             modelos: [
                 { nome: "RealMe C35 / C55 / C67", geral: "96", reddot: "91", m2x: "95", m4x: "92", dpi: "DPI: 580 | Espaço de Jogos Ativado", ponteiro: "Velocidade: Centro + 3", regedit: "REALME_C_SERIES_FIX=1" },
                 { nome: "RealMe 10 / 11 Pro Plus", geral: "99", reddot: "94", m2x: "98", m4x: "96", dpi: "DPI: 660 | Otimização HyperBoost", ponteiro: "Velocidade: Máxima", regedit: "HYPERBOOST_AIM_LOCK=TRUE" },
-                { nome: "RealMe GT Master / GT3 VIP", geral: "100", reddot: "97", m2x: "100", m4x: "98", dpi: "DPI: 720 | Modo GT Ativado permanentemente", ponteiro: "Velocidade: Ultra Rápida", regedit: "GT_AIMBOT_STABILIZER=1" }
+                { nome: "RealMe GT Master / GT3 VIP", geral: "100", reddot: "97", m2x: "100", m4x: "98", dpi: "DPI: 720 | Modo GT Ativo", ponteiro: "Velocidade: Ultra Rápida", regedit: "GT_AIMBOT_STABILIZER=1" }
             ]
         }
     };
