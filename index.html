@@ -68,10 +68,10 @@
         .btn-entrar:hover {
             background: #e09500;
         }
-        #conteudo-vip {
+        #conteudo-vip, #area-modelos {
             display: none;
         }
-        .btn-marca {
+        .btn-marca, .btn-modelo {
             display: block;
             width: 100%;
             padding: 12px;
@@ -84,11 +84,22 @@
             font-weight: bold;
             cursor: pointer;
             transition: 0.3s;
+            text-align: center;
         }
-        .btn-marca:hover {
+        .btn-marca:hover, .btn-modelo:hover {
             background: #ffaa00;
             color: #0b0e14;
             border-color: #ffaa00;
+        }
+        .btn-voltar {
+            background: #ef4444;
+            color: white;
+            border: none;
+            margin-top: 15px;
+        }
+        .btn-voltar:hover {
+            background: #dc2626;
+            color: white;
         }
         .result-box {
             display: none;
@@ -117,24 +128,29 @@
 
 <div class="container" id="tela-login">
     <h1>🔑 SESSÃO BLOQUEADA</h1>
-    <p>Insira uma Chave VIP válida para liberar o Painel Gerador de Sensibilidade:</p>
-    
+    <p>Insira uma Chave VIP válida gerada pelo bot para liberar o Painel:</p>
     <input type="text" id="campo-key" class="input-key" placeholder="DIGITE SUA KEY AQUI">
     <button class="btn-entrar" onclick="verificarKey()">ATIVAR ACESSO</button>
 </div>
 
 <div class="container" id="conteudo-vip">
     <h1>👑 PAINEL GERADOR VIP</h1>
-    <p>Acesso Liberado! Selecione a marca do seu dispositivo para ver os ajustes:</p>
+    <p>Acesso Liberado! Selecione a marca do seu celular:</p>
 
-    <button class="btn-marca" onclick="mostrarSensi('iphone')">🍏 iPhone (iOS)</button>
-    <button class="btn-marca" onclick="mostrarSensi('samsung')">📱 Samsung</button>
-    <button class="btn-marca" onclick="mostrarSensi('xiaomi')">📱 Xiaomi</button>
-    <button class="btn-marca" onclick="mostrarSensi('motorola')">📱 Motorola</button>
-    <button class="btn-marca" onclick="mostrarSensi('infinix')">📱 Infinix / Outros</button>
+    <button class="btn-marca" onclick="abrirModelos('iphone')">🍏 iPhone (iOS)</button>
+    <button class="btn-marca" onclick="abrirModelos('samsung')">📱 Samsung</button>
+    <button class="btn-marca" onclick="abrirModelos('xiaomi')">📱 Xiaomi</button>
+    <button class="btn-marca" onclick="abrirModelos('motorola')">📱 Motorola</button>
+</div>
+
+<div class="container" id="area-modelos">
+    <h1 id="titulo-marcas-modelos">Modelos Disponíveis</h1>
+    <p>Selecione o modelo exato do seu aparelho:</p>
+
+    <div id="lista-botoes-modelos"></div>
 
     <div id="resultado" class="result-box">
-        <h3 id="titulo-marca">Marca Selecionada</h3>
+        <h3 id="titulo-modelo-escolhido">Modelo Selecionado</h3>
         <p style="color: #fff; margin-bottom: 10px;">🎯 <strong>Ajuste Recomendado:</strong></p>
         <span class="sensi-value" id="sensi-geral">Geral: --</span>
         <span class="sensi-value" id="sensi-reddot">RedDot: --</span>
@@ -145,16 +161,27 @@
         <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">📦 <strong>Arquivo Regedit:</strong></p>
         <span class="sensi-value" id="sensi-regedit">Código: --</span>
     </div>
+
+    <button class="btn-marca btn-voltar" onclick="voltarParaMarcas()">⬅️ Voltar para Marcas</button>
 </div>
 
 <script>
-    // 🎫 KEYS PARA ENTRAR NO SITE
-    // Seus clientes podem digitar qualquer uma dessas chaves para entrar no site:
-    const keysValidas = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"];
+    let keysValidas = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"];
+
+    // Sincroniza chaves com o bot automaticamente
+    async function sincronizarKeys() {
+        try {
+            const resposta = await fetch('https://raw.githubusercontent.com/draftstore8-debug/Bot-vip/main/keys-ativas.json');
+            if(resposta.ok) {
+                const novasKeys = await resposta.json();
+                keysValidas = [...new Set([...keysValidas, ...novasKeys])];
+            }
+        } catch(e) {}
+    }
+    sincronizarKeys();
 
     function verificarKey() {
         const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
-
         if (keysValidas.includes(keyDigitada)) {
             alert("🎉 Acesso VIP Autorizado!");
             document.getElementById('tela-login').style.display = 'none';
@@ -164,27 +191,24 @@
         }
     }
 
-    const dadosSensi = {
-        iphone: { titulo: "🍏 IPHONE VIP", geral: "100", reddot: "94", m2x: "98", m4x: "96", dpi: "Cursor Móvel: 120", regedit: "aim_lock_ios=true" },
-        samsung: { titulo: "📱 SAMSUNG VIP", geral: "98", reddot: "91", m2x: "95", m4x: "93", dpi: "DPI: 720 | Ponteiro: Máximo", regedit: "sensibility_booster=1" },
-        xiaomi: { titulo: "📱 XIAOMI VIP", geral: "97", reddot: "95", m2x: "92", m4x: "90", dpi: "DPI: 680 | Game Turbo no Máximo", regedit: "touch_response=0.1ms" },
-        motorola: { titulo: "📱 MOTOROLA VIP", geral: "100", reddot: "89", m2x: "96", m4x: "94", dpi: "DPI: 580 | Permanência: Curta", regedit: "perfect_hit_stabilizer=true" },
-        infinix: { titulo: "📱 INFINIX & OUTROS VIP", geral: "99", reddot: "92", m2x: "94", m4x: "91", dpi: "DPI: 600", regedit: "global_aim_assist=1" }
-    };
-
-    function mostrarSensi(marca) {
-        const dados = dadosSensi[marca];
-        document.getElementById('titulo-marca').innerText = dados.titulo;
-        document.getElementById('sensi-geral').innerText = "Geral: " + dados.geral;
-        document.getElementById('sensi-reddot').innerText = "RedDot: " + dados.reddot;
-        document.getElementById('sensi-2x').innerText = "Mira 2x: " + dados.m2x;
-        document.getElementById('sensi-4x').innerText = "Mira 4x: " + dados.m4x;
-        document.getElementById('sensi-dpi').innerText = dados.dpi;
-        document.getElementById('sensi-regedit').innerText = dados.regedit;
-        
-        document.getElementById('resultado').style.display = 'block';
-    }
-</script>
-
-</body>
-</html>
+    // BANCO DE DADOS DE MODELOS E SENSIBILIDADES
+    const marcasDados = {
+        iphone: {
+            titulo: "🍏 MODELOS IPHONE (iOS)",
+            modelos: [
+                { nome: "iPhone 8 / 8 Plus", geral: "94", reddot: "88", m2x: "95", m4x: "91", dpi: "Cursor: 115 | Individual", regedit: "aimlock_ios8=1" },
+                { nome: "iPhone X / XR / XS", geral: "98", reddot: "92", m2x: "97", m4x: "94", dpi: "Cursor: 120 | Refinado", regedit: "sensi_booster_xr=true" },
+                { nome: "iPhone 11 / 11 Pro Max", geral: "100", reddot: "95", m2x: "98", m4x: "96", dpi: "Cursor: 120 | Preciso", regedit: "aim_assist_ip11=1" },
+                { nome: "iPhone 12 / 12 Pro", geral: "97", reddot: "91", m2x: "96", m4x: "93", dpi: "Cursor: 118 | Individual", regedit: "stabilizer_v2=true" },
+                { nome: "iPhone 13 / 13 Pro Max", geral: "100", reddot: "94", m2x: "99", m4x: "95", dpi: "Cursor: 120 | Refinado", regedit: "headshot_glitch_ip13=1" },
+                { nome: "iPhone 14 / 14 Pro Max", geral: "99", reddot: "93", m2x: "95", m4x: "94", dpi: "Cursor: 120 Max", regedit: "aim_lock_pro=1" },
+                { nome: "iPhone 15 / 15 Pro Max", geral: "100", reddot: "96", m2x: "100", m4x: "98", dpi: "Cursor: 120 | Individual", regedit: "bypass_smooth_ios15=true" },
+                { nome: "iPhone 16 / 16 Pro Max", geral: "100", reddot: "97", m2x: "100", m4x: "99", dpi: "Cursor: 120 Max | Ultra", regedit: "ios16_ultra_lock=1" },
+                { nome: "iPhone 17 / 17 Pro (VIP)", geral: "100", reddot: "99", m2x: "100", m4x: "100", dpi: "Cursor: 120 | Próximo Gen", regedit: "aim_prediction_ios17=true" }
+            ]
+        },
+        samsung: {
+            titulo: "📱 MODELOS SAMSUNG",
+            modelos: [
+                { nome: "Samsung Galaxy A10 / A20 / A30", geral: "95", reddot: "89", m2x: "92", m4x: "90", dpi: "DPI: 580 | Ponteiro: +2", regedit: "samsung_a_boost=true" },
+                { nome: "Samsung Galaxy A50 / A54 / A73", geral: "98", reddot: "91", m2x: "96", m4x: "94", dpi: "DPI: 7
