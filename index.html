@@ -160,7 +160,7 @@
             color: white;
         }
 
-        /* CAIXA DE RESULTADOS IGUAL AO PRINT */
+        /* CAIXA DE RESULTADOS */
         .result-box {
             display: none;
             margin-top: 25px;
@@ -168,7 +168,7 @@
             text-align: left;
         }
         
-        /* CARD DAS ARMAS ESTILO PREMIUM DO SITE */
+        /* CARD DE SENSI ÚNICA */
         .card-arma {
             background: #10141d;
             border: 1px solid #222c3c;
@@ -189,7 +189,7 @@
             font-weight: bold;
         }
 
-        /* CAMPOS INTERNOS DO DESIGN DE INPUTS */
+        /* CAMPOS INTERNOS DO DESIGN */
         .sensi-value {
             background: #1f2633;
             padding: 12px;
@@ -202,7 +202,7 @@
             border: 1px solid #283344;
         }
         
-        /* BOTAO VERDE IGUAL AO DO SEU PRINT */
+        /* BOTAO VERDE ATIVAR */
         .btn-ativar-arma {
             width: 100%;
             padding: 12px;
@@ -312,33 +312,16 @@
         </div>
 
         <div id="resultado-tiktok" class="result-box">
-            <h2 style="text-align: center; margin-bottom: 20px; font-size: 22px;" id="titulo-sucesso-tk">🍏 SENSI EXTRAÍDA PARA IPHONE</h2>
+            <h2 style="text-align: center; margin-bottom: 20px; font-size: 22px;" id="titulo-sucesso-tk">🍏 SENSI EXTRAÍDA</h2>
             
             <div class="card-arma">
-                <h4>🔫 DESERT EAGLE</h4>
-                <div class="sensi-value" id="tk-desert-geral">Geral: 162</div>
-                <div class="sensi-value" id="tk-desert-red">Ponto Vermelho: 185</div>
-                <div class="sensi-value" id="tk-desert-v1">Ciclos: 4</div>
-                <div class="sensi-value" id="tk-desert-v2">Cursor Móvel: 120 (Refinado)</div>
-                <button class="btn-ativar-arma" id="btn-ativar-desert" onclick="ativarConfigArma('Desert Eagle')">ATIVAR NO IPHONE</button>
-            </div>
-
-            <div class="card-arma">
-                <h4>🔫 UMP</h4>
-                <div class="sensi-value" id="tk-ump-geral">Geral: 171</div>
-                <div class="sensi-value" id="tk-ump-red">Mira 2x: 165</div>
-                <div class="sensi-value" id="tk-ump-v1">Ciclos: 4</div>
-                <div class="sensi-value" id="tk-ump-v2">Cursor Móvel: 120 Max</div>
-                <button class="btn-ativar-arma" id="btn-ativar-ump" onclick="ativarConfigArma('UMP')">ATIVAR NO IPHONE</button>
-            </div>
-
-            <div class="card-arma">
-                <h4>🔫 M1014</h4>
-                <div class="sensi-value" id="tk-m10-geral">Geral: 169</div>
-                <div class="sensi-value" id="tk-m10-red">Mira 4x: 180</div>
-                <div class="sensi-value" id="tk-m10-v1">Ciclos: 2</div>
-                <div class="sensi-value" id="tk-m10-v2">Cursor Móvel: 110 Individual</div>
-                <button class="btn-ativar-arma" id="btn-ativar-m10" onclick="ativarConfigArma('M1014')">ATIVAR NO IPHONE</button>
+                <h4 id="label-card-principal">🎯 CONFIGURAÇÃO COMPLETA</h4>
+                <div class="sensi-value" id="tk-sensi-geral">Geral: --</div>
+                <div class="sensi-value" id="tk-sensi-red">Ponto Vermelho: --</div>
+                <div class="sensi-value" id="tk-sensi-v1">Ciclo: --</div>
+                <div class="sensi-value" id="tk-sensi-v2">Curso Móvel: --</div>
+                <div class="sensi-value" id="tk-sensi-v3">Botão de atirar: --</div>
+                <button class="btn-ativar-arma" id="btn-ativar-unica" onclick="ativarConfigArma()">ATIVAR AGORA</button>
             </div>
         </div>
     </div>
@@ -428,7 +411,7 @@
         }
     }
 
-    function executarClonagemTikTok() {
+    function ejecutarClonagemTikTok() {
         if(!sistemaSelecionadoTikTok) {
             alert("⚠️ Selecione primeiro se seu celular é Android ou iPhone (iOS)!");
             return;
@@ -474,62 +457,54 @@
 
     function mostrarValoresArmasFF() {
         let tituloContainer = document.getElementById('titulo-sucesso-tk');
+        let labelCard = document.getElementById('label-card-principal');
+        let btnAtivar = document.getElementById('btn-ativar-unica');
         
-        let gDesert = Math.floor(Math.random() * (198 - 140 + 1)) + 140;
-        let rDesert = Math.floor(Math.random() * (195 - 150 + 1)) + 150;
-        let gUmp = Math.floor(Math.random() * (199 - 145 + 1)) + 145;
-        let rUmp = Math.floor(Math.random() * (200 - 160 + 1)) + 160;
-        let gM10 = Math.floor(Math.random() * (192 - 135 + 1)) + 135;
-        let rM10 = Math.floor(Math.random() * (200 - 170 + 1)) + 170;
+        let gSensi = Math.floor(Math.random() * (198 - 145 + 1)) + 145;
+        let rSensi = Math.floor(Math.random() * (195 - 150 + 1)) + 150;
+        let tamBotao = Math.floor(Math.random() * (55 - 41 + 1)) + 41;
 
-        document.getElementById('tk-desert-geral').innerText = "Geral: " + gDesert;
-        document.getElementById('tk-ump-geral').innerText = "Geral: " + gUmp;
-        document.getElementById('tk-m10-geral').innerText = "Geral: " + gM10;
+        document.getElementById('tk-sensi-geral').innerText = "Geral: " + gSensi;
+        document.getElementById('tk-sensi-red').innerText = "Ponto Vermelho: " + rSensi;
 
         if(sistemaSelecionadoTikTok === 'ios') {
             tituloContainer.innerText = "🍏 SENSI EXTRAÍDA PARA IPHONE";
             tituloContainer.style.color = "#00e5ff";
+            labelCard.innerText = "🍏 AJUSTES IOS SYSTEM";
 
-            document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
-            document.getElementById('tk-desert-v1').innerText = "Ciclos: " + [2, 3, 4][Math.floor(Math.random() * 3)];
-            document.getElementById('tk-desert-v2').innerText = "Cursor Móvel: " + [115, 120][Math.floor(Math.random() * 2)] + " (Refinado)";
-            document.getElementById('btn-ativar-desert').innerText = "ATIVAR NO IPHONE";
+            // REGRAS: Ciclo vai até 10
+            let cicloSorteado = Math.floor(Math.random() * 10) + 1; 
+            document.getElementById('tk-sensi-v1').innerText = "Ciclo: " + cicloSorteado;
 
-            document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
-            document.getElementById('tk-ump-v1').innerText = "Ciclos: " + [3, 4][Math.floor(Math.random() * 2)];
-            document.getElementById('tk-ump-v2').innerText = "Cursor Móvel: 120 Max";
-            document.getElementById('btn-ativar-ump').innerText = "ATIVAR NO IPHONE";
+            // REGRAS: Cursor Móvel (Individual, Refinado, Preciso)
+            let tiposCursor = ["Individual", "Refinado", "Preciso"];
+            let cursorSorteado = tiposCursor[Math.floor(Math.random() * tiposCursor.length)];
+            let valorCursor = [110, 115, 120][Math.floor(Math.random() * 3)];
+            document.getElementById('tk-sensi-v2').innerText = "Curso Móvel: " + valorCursor + " (" + cursorSorteado + ")";
 
-            document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
-            document.getElementById('tk-m10-v1').innerText = "Ciclos: 2";
-            document.getElementById('tk-m10-v2').innerText = "Cursor Móvel: 110 Individual";
-            document.getElementById('btn-ativar-m10').innerText = "ATIVAR NO IPHONE";
+            // Adicionado Botão de atirar no iPhone também!
+            document.getElementById('tk-sensi-v3').innerText = "Botão de atirar: " + tamBotao + "%";
+
+            btnAtivar.innerText = "ATIVAR NO IPHONE";
         } else {
             tituloContainer.innerText = "🤖 SENSI EXTRAÍDA PARA ANDROID";
             tituloContainer.style.color = "#00ff66";
+            labelCard.innerText = "🤖 AJUSTES ANDROID SYSTEM";
 
-            document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
-            document.getElementById('tk-desert-v1').innerText = "DPI: " + [580, 720, 840][Math.floor(Math.random() * 3)];
-            document.getElementById('tk-desert-v2').innerText = "Velocidade do Ponteiro: " + (Math.floor(Math.random() * (10 - 7 + 1)) + 7) + "/10";
-            document.getElementById('btn-ativar-desert').innerText = "ATIVAR NO ANDROID";
+            let dpiSorteada = [580, 640, 720, 840, 960][Math.floor(Math.random() * 5)];
+            document.getElementById('tk-sensi-v1').innerText = "DPI: " + dpiSorteada;
+            document.getElementById('tk-sensi-v2').innerText = "Velocidade do Curso: Máxima";
+            document.getElementById('tk-sensi-v3').innerText = "Botão de atirar: " + tamBotao + "%";
 
-            document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
-            document.getElementById('tk-ump-v1').innerText = "DPI: " + [600, 760, 960][Math.floor(Math.random() * 4)];
-            document.getElementById('tk-ump-v2').innerText = "Velocidade do Ponteiro: Máxima";
-            document.getElementById('btn-ativar-ump').innerText = "ATIVAR NO ANDROID";
-
-            document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
-            document.getElementById('tk-m10-v1').innerText = "DPI: " + [520, 640][Math.floor(Math.random() * 2)];
-            document.getElementById('tk-m10-v2').innerText = "Velocidade do Ponteiro: Estável";
-            document.getElementById('btn-ativar-m10').innerText = "ATIVAR NO ANDROID";
+            btnAtivar.innerText = "ATIVAR NO ANDROID";
         }
 
         document.getElementById('resultado-tiktok').style.display = 'block';
         document.getElementById('resultado-tiktok').scrollIntoView({ behavior: 'smooth' });
     }
 
-    function ativarConfigArma(arma) {
-        alert("🚀 Ajustes da " + arma + " injetados com sucesso!");
+    function activarConfigArma() {
+        alert("🚀 Sensibilidade mestre injetada com sucesso no dispositivo!");
     }
 
     let marcaSelecionada = '';
