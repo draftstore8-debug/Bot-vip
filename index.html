@@ -25,7 +25,44 @@
             box-shadow: 0 8px 24px rgba(0,0,0,0.5);
             text-align: center;
             border: 1px solid #222c3c;
+            position: relative;
         }
+        
+        /* NOVO: Estilo dos 3 Botões Superiores no topo do Painel */
+        .menu-topo-vip {
+            display: flex;
+            justify-content: space-between;
+            gap: 8px;
+            margin-bottom: 25px;
+            background: #0b0e14;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ffaa00;
+        }
+        .btn-topo {
+            flex: 1;
+            padding: 8px 4px;
+            background: #1f2937;
+            color: #ffffff;
+            border: 1px solid #374151;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+            white-space: nowrap;
+        }
+        .btn-topo:hover {
+            background: #ffaa00;
+            color: #0b0e14;
+            border-color: #ffaa00;
+        }
+        .btn-topo.ativo {
+            background: #ffaa00;
+            color: #0b0e14;
+            border-color: #ffaa00;
+        }
+
         h1 {
             color: #ffaa00;
             margin-bottom: 10px;
@@ -143,6 +180,13 @@
 </div>
 
 <div class="container" id="conteudo-vip">
+    
+    <div class="menu-topo-vip">
+        <button class="btn-topo ativo" onclick="acaoMenu('gerador')">⚡ Gerador Sensi</button>
+        <button class="btn-topo" onclick="acaoMenu('clonar')">👥 Clonar Sensi</button>
+        <button class="btn-topo" onclick="acaoMenu('auxilio')">🎯 Auxílio Mira</button>
+    </div>
+
     <h1>👑 PAINEL GERADOR VIP</h1>
     <p>Acesso Liberado! Selecione a marca do seu celular:</p>
     <button class="btn-marca" onclick="selecionarMarca('iphone')">🍏 iPhone (iOS)</button>
@@ -205,6 +249,23 @@
         }
     }
 
+    // NOVO: Função que dá inteligência aos 3 botões do topo
+    function acaoMenu(tipo) {
+        if (tipo === 'gerador') {
+            alert("🎯 Você já está no Gerador de Sensi VIP! Escolha uma marca abaixo.");
+        } else if (tipo === 'clonar') {
+            let player = prompt("👥 Digite o ID ou Nome do Pro Player que deseja clonar a sensi (Ex: Thurzin, Bak, Steluto):");
+            if(player) {
+                alert("⏳ Escaneando banco de dados do Free Fire para: " + player + "...\n\n✅ Sensi Clonada com Sucesso! O injetor aplicará os multiplicadores automaticamente.");
+            }
+        } else if (tipo === 'auxilio') {
+            let ativou = confirm("🎯 ATIVAR AUXÍLIO DE MIRA (AIM ASSIST HACK)?\n\nIsso injetará uma trava de pixel na sensibilidade Y para não passar da cabeça.");
+            if(ativou) {
+                alert("🚀 Auxílio de Mira Injetado! Status: 100% HS ATIVADO.");
+            }
+        }
+    }
+
     let marcaSelecionada = '';
     let filtroSensi = ''; 
 
@@ -242,7 +303,6 @@
         document.getElementById('titulo-modelo-escolhido').innerText = "🎯 " + modeloEscolhido.nome.toUpperCase();
         
         if (filtroSensi === 'alto') {
-            // CORREÇÃO AQUI: Multiplica por 2 e limita rigorosamente em 200 no teto!
             let gAlto = Math.min(200, parseInt(modeloEscolhido.geral) * 2);
             let rAlto = Math.min(200, parseInt(modeloEscolhido.reddot) * 2);
             let m2xAlto = Math.min(200, parseInt(modeloEscolhido.m2x) * 2);
@@ -258,7 +318,6 @@
             document.getElementById('sensi-velocidade').innerText = "Frequência Hacker: 360Hz | Delay: 0.01ms";
             document.getElementById('sensi-regedit').innerText = "Status: BYPASS_TRAVA_HEAD=200";
         } else {
-            // Sensi normal (Abaixo de 100) baseada no seu painel funcionando
             document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
             document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + modeloEscolhido.reddot;
             document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
@@ -285,7 +344,6 @@
         document.getElementById('area-filtro').style.display = 'block';
     }
 
-    // Banco de dados padrão puxando de 1 a 100 perfeitamente
     const marcasDados = {
         iphone: {
             titulo: "🍏 IPHONE",
