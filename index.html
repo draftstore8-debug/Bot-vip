@@ -61,6 +61,7 @@
             color: #ffaa00;
             margin-bottom: 10px;
             font-size: 24px;
+            font-weight: bold;
         }
         p {
             color: #8a99ad;
@@ -125,7 +126,7 @@
             border-color: #ffaa00;
         }
 
-        /* BOTOES SELEÇÃO DE SISTEMA TIKTOK */
+        /* SELEÇÃO ANDROID OU IOS */
         .seletor-sistema {
             display: flex;
             gap: 10px;
@@ -158,29 +159,70 @@
             background: #dc2626;
             color: white;
         }
+
+        /* CAIXA DE RESULTADOS IGUAL AO PRINT */
         .result-box {
             display: none;
             margin-top: 25px;
-            padding: 20px;
-            background: #0b0e14;
-            border-radius: 10px;
-            border-left: 5px solid #ffaa00;
+            padding: 10px 0;
             text-align: left;
         }
-        .result-box h3 {
-            margin-top: 0;
-            color: #ffaa00;
+        
+        /* CARD DAS ARMAS ESTILO PREMIUM DO SITE */
+        .card-arma {
+            background: #10141d;
+            border: 1px solid #222c3c;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 20px 0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            position: relative;
         }
-        .sensi-value {
-            background: #222c3c;
-            padding: 8px;
-            border-radius: 5px;
-            font-family: monospace;
-            display: block;
-            margin: 5px 0;
+        .card-arma h4 {
+            margin: 0 0 15px 0;
+            color: #ffaa00;
+            font-size: 18px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
         }
 
-        /* CLONADOR ESTILO TIKTOK */
+        /* CAMPOS INTERNOS DO DESIGN DE INPUTS */
+        .sensi-value {
+            background: #1f2633;
+            padding: 12px;
+            border-radius: 6px;
+            font-size: 15px;
+            display: block;
+            margin: 8px 0;
+            color: #ffffff;
+            font-weight: 500;
+            border: 1px solid #283344;
+        }
+        
+        /* BOTAO VERDE IGUAL AO DO SEU PRINT */
+        .btn-ativar-arma {
+            width: 100%;
+            padding: 12px;
+            background: #5cff7a;
+            color: #0b0e14;
+            border: none;
+            border-radius: 6px;
+            font-weight: bold;
+            margin-top: 15px;
+            cursor: pointer;
+            font-size: 15px;
+            letter-spacing: 0.5px;
+            transition: 0.2s;
+            text-transform: uppercase;
+        }
+        .btn-ativar-arma:hover {
+            background: #3ee65e;
+        }
+
+        /* ANIMAÇÃO TIKTOK */
         .loading-container {
             display: none;
             margin-top: 20px;
@@ -217,40 +259,6 @@
             font-weight: bold;
             color: #ffaa00;
             margin-top: 5px;
-        }
-        
-        .card-arma {
-            background: #0b0e14;
-            border: 1px solid #222c3c;
-            border-radius: 10px;
-            padding: 15px;
-            margin: 15px 0;
-            text-align: left;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-        }
-        .card-arma h4 {
-            margin: 0 0 10px 0;
-            color: #ffaa00;
-            font-size: 16px;
-            letter-spacing: 1px;
-            border-bottom: 1px solid #222c3c;
-            padding-bottom: 5px;
-        }
-        .btn-ativar-arma {
-            width: 100%;
-            padding: 8px;
-            background: #00ff66;
-            color: #0b0e14;
-            border: none;
-            border-radius: 5px;
-            font-weight: bold;
-            margin-top: 10px;
-            cursor: pointer;
-            font-size: 13px;
-            transition: 0.2s;
-        }
-        .btn-ativar-arma:hover {
-            background: #00cc52;
         }
     </style>
 </head>
@@ -304,33 +312,33 @@
         </div>
 
         <div id="resultado-tiktok" class="result-box">
-            <h3 style="text-align: center; margin-bottom: 15px; color: #00ff66;" id="titulo-sucesso-tk">✅ SENSI EXTRAÍDA!</h3>
+            <h2 style="text-align: center; margin-bottom: 20px; font-size: 22px;" id="titulo-sucesso-tk">🍏 SENSI EXTRAÍDA PARA IPHONE</h2>
             
             <div class="card-arma">
                 <h4>🔫 DESERT EAGLE</h4>
-                <span class="sensi-value" id="tk-desert-geral">Geral: --</span>
-                <span class="sensi-value" id="tk-desert-red">Ponto Vermelho: --</span>
-                <span class="sensi-value" id="tk-desert-v1">--</span>
-                <span class="sensi-value" id="tk-desert-v2">--</span>
-                <button class="btn-ativar-arma" id="btn-ativar-desert" onclick="ativarConfigArma('Desert Eagle')">ATIVAR CONFIGURAÇÃO</button>
+                <div class="sensi-value" id="tk-desert-geral">Geral: 162</div>
+                <div class="sensi-value" id="tk-desert-red">Ponto Vermelho: 185</div>
+                <div class="sensi-value" id="tk-desert-v1">Ciclos: 4</div>
+                <div class="sensi-value" id="tk-desert-v2">Cursor Móvel: 120 (Refinado)</div>
+                <button class="btn-ativar-arma" id="btn-ativar-desert" onclick="ativarConfigArma('Desert Eagle')">ATIVAR NO IPHONE</button>
             </div>
 
             <div class="card-arma">
                 <h4>🔫 UMP</h4>
-                <span class="sensi-value" id="tk-ump-geral">Geral: --</span>
-                <span class="sensi-value" id="tk-ump-red">Mira 2x: --</span>
-                <span class="sensi-value" id="tk-ump-v1">--</span>
-                <span class="sensi-value" id="tk-ump-v2">--</span>
-                <button class="btn-ativar-arma" id="btn-ativar-ump" onclick="ativarConfigArma('UMP')">ATIVAR CONFIGURAÇÃO</button>
+                <div class="sensi-value" id="tk-ump-geral">Geral: 171</div>
+                <div class="sensi-value" id="tk-ump-red">Mira 2x: 165</div>
+                <div class="sensi-value" id="tk-ump-v1">Ciclos: 4</div>
+                <div class="sensi-value" id="tk-ump-v2">Cursor Móvel: 120 Max</div>
+                <button class="btn-ativar-arma" id="btn-ativar-ump" onclick="ativarConfigArma('UMP')">ATIVAR NO IPHONE</button>
             </div>
 
             <div class="card-arma">
                 <h4>🔫 M1014</h4>
-                <span class="sensi-value" id="tk-m10-geral">Geral: --</span>
-                <span class="sensi-value" id="tk-m10-red">Mira 4x: --</span>
-                <span class="sensi-value" id="tk-m10-v1">--</span>
-                <span class="sensi-value" id="tk-m10-v2">--</span>
-                <button class="btn-ativar-arma" id="btn-ativar-m10" onclick="ativarConfigArma('M1014')">ATIVAR CONFIGURAÇÃO</button>
+                <div class="sensi-value" id="tk-m10-geral">Geral: 169</div>
+                <div class="sensi-value" id="tk-m10-red">Mira 4x: 180</div>
+                <div class="sensi-value" id="tk-m10-v1">Ciclos: 2</div>
+                <div class="sensi-value" id="tk-m10-v2">Cursor Móvel: 110 Individual</div>
+                <button class="btn-ativar-arma" id="btn-ativar-m10" onclick="ativarConfigArma('M1014')">ATIVAR NO IPHONE</button>
             </div>
         </div>
     </div>
@@ -348,17 +356,13 @@
     <h1 id="titulo-marcas-modelos">Modelos Disponíveis</h1>
     <p>Selecione o modelo exato do seu aparelho:</p>
     <div id="lista-botoes-modelos"></div>
-    <div id="resultado" class="result-box">
-        <h3 id="titulo-modelo-escolhido">Modelo Selecionado</h3>
-        <span class="sensi-value" id="sensi-geral">Geral: --</span>
-        <span class="sensi-value" id="sensi-reddot">Ponto Vermelho: --</span>
-        <span class="sensi-value" id="sensi-2x">Mira 2x: --</span>
-        <span class="sensi-value" id="sensi-4x">Mira 4x: --</span>
-        <span class="sensi-value" id="sensi-Y" style="color: #ffaa00;">Aceleração Y: --</span>
-        <span class="sensi-value" id="sensi-X" style="color: #ffaa00;">Estabilizador X: --</span>
-        <span class="sensi-value" id="sensi-velocidade" style="color: #00e5ff;">Resposta do Toque: --</span>
-        <span class="sensi-value" id="sensi-dpi">DPI: --</span>
-        <span class="sensi-value" id="sensi-regedit" style="color: #00ff66; font-weight: bold;">Código: --</span>
+    <div id="resultado" style="display:none; margin-top:20px; text-align:left;">
+        <h3 id="titulo-modelo-escolhido" style="color:#ffaa00;">Modelo Selecionado</h3>
+        <div class="sensi-value" id="sensi-geral">Geral: --</div>
+        <div class="sensi-value" id="sensi-reddot">Ponto Vermelho: --</div>
+        <div class="sensi-value" id="sensi-2x">Mira 2x: --</div>
+        <div class="sensi-value" id="sensi-4x">Mira 4x: --</div>
+        <div class="sensi-value" id="sensi-dpi">DPI: --</div>
     </div>
     <button class="btn-marca btn-voltar" onclick="voltarParaFiltro()">⬅️ Mudar Tipo de Sensi</button>
 </div>
@@ -369,7 +373,6 @@
     function verificarKey() {
         const campo = document.getElementById('campo-key');
         if (!campo) return;
-        
         const keyDigitada = campo.value.trim().toUpperCase();
 
         if (keyDigitada === "") {
@@ -413,7 +416,6 @@
         }
     }
 
-    // Seleção de Android ou iOS na aba do clonador
     function selecionarSistemaClonador(sistema) {
         sistemaSelecionadoTikTok = sistema;
         document.getElementById('sys-android').classList.remove('selecionado');
@@ -467,13 +469,12 @@
                 document.getElementById('loader-tiktok').style.display = 'none';
                 mostrarValoresArmasFF();
             }
-        }, 50);
+        }, 40);
     }
 
     function mostrarValoresArmasFF() {
         let tituloContainer = document.getElementById('titulo-sucesso-tk');
         
-        // Sorteia os valores bases da sensibilidade hacker
         let gDesert = Math.floor(Math.random() * (198 - 140 + 1)) + 140;
         let rDesert = Math.floor(Math.random() * (195 - 150 + 1)) + 150;
         let gUmp = Math.floor(Math.random() * (199 - 145 + 1)) + 145;
@@ -482,28 +483,24 @@
         let rM10 = Math.floor(Math.random() * (200 - 170 + 1)) + 170;
 
         document.getElementById('tk-desert-geral').innerText = "Geral: " + gDesert;
-        document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
-        
         document.getElementById('tk-ump-geral').innerText = "Geral: " + gUmp;
-        document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
-
         document.getElementById('tk-m10-geral').innerText = "Geral: " + gM10;
-        document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
 
-        // Muda as variáveis dinâmicas com base no sistema escolhido (iOS vs Android)
         if(sistemaSelecionadoTikTok === 'ios') {
             tituloContainer.innerText = "🍏 SENSI EXTRAÍDA PARA IPHONE";
             tituloContainer.style.color = "#00e5ff";
 
-            // Modifica labels para o formato iPhone
+            document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
             document.getElementById('tk-desert-v1').innerText = "Ciclos: " + [2, 3, 4][Math.floor(Math.random() * 3)];
-            document.getElementById('tk-desert-v2').innerText = "Cursor Móvel: " + [115, 120, 120][Math.floor(Math.random() * 3)] + " (Refinado)";
+            document.getElementById('tk-desert-v2').innerText = "Cursor Móvel: " + [115, 120][Math.floor(Math.random() * 2)] + " (Refinado)";
             document.getElementById('btn-ativar-desert').innerText = "ATIVAR NO IPHONE";
 
+            document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
             document.getElementById('tk-ump-v1').innerText = "Ciclos: " + [3, 4][Math.floor(Math.random() * 2)];
             document.getElementById('tk-ump-v2').innerText = "Cursor Móvel: 120 Max";
             document.getElementById('btn-ativar-ump').innerText = "ATIVAR NO IPHONE";
 
+            document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
             document.getElementById('tk-m10-v1').innerText = "Ciclos: 2";
             document.getElementById('tk-m10-v2').innerText = "Cursor Móvel: 110 Individual";
             document.getElementById('btn-ativar-m10').innerText = "ATIVAR NO IPHONE";
@@ -511,18 +508,20 @@
             tituloContainer.innerText = "🤖 SENSI EXTRAÍDA PARA ANDROID";
             tituloContainer.style.color = "#00ff66";
 
-            // Modifica labels para o formato Android
-            document.getElementById('tk-desert-v1').innerText = "DPI Recomendada: " + [580, 640, 720, 800][Math.floor(Math.random() * 4)] + " DPI";
+            document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
+            document.getElementById('tk-desert-v1').innerText = "DPI: " + [580, 720, 840][Math.floor(Math.random() * 3)];
             document.getElementById('tk-desert-v2').innerText = "Velocidade do Ponteiro: " + (Math.floor(Math.random() * (10 - 7 + 1)) + 7) + "/10";
-            document.getElementById('btn-ativar-desert').innerText = "ATIVAR CONFIGURAÇÃO";
+            document.getElementById('btn-ativar-desert').innerText = "ATIVAR NO ANDROID";
 
-            document.getElementById('tk-ump-v1').innerText = "DPI Recomendada: " + [600, 760, 840, 960][Math.floor(Math.random() * 4)] + " DPI";
-            document.getElementById('tk-ump-v2').innerText = "Velocidade do Ponteiro: Máxima (Fast)";
-            document.getElementById('btn-ativar-ump').innerText = "ATIVAR CONFIGURAÇÃO";
+            document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
+            document.getElementById('tk-ump-v1').innerText = "DPI: " + [600, 760, 960][Math.floor(Math.random() * 4)];
+            document.getElementById('tk-ump-v2').innerText = "Velocidade do Ponteiro: Máxima";
+            document.getElementById('btn-ativar-ump').innerText = "ATIVAR NO ANDROID";
 
-            document.getElementById('tk-m10-v1').innerText = "DPI Recomendada: " + [520, 600, 680][Math.floor(Math.random() * 3)] + " DPI";
-            document.getElementById('tk-m10-v2').innerText = "Velocidade do Ponteiro: 6/10 Estável";
-            document.getElementById('btn-ativar-m10').innerText = "ATIVAR CONFIGURAÇÃO";
+            document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
+            document.getElementById('tk-m10-v1').innerText = "DPI: " + [520, 640][Math.floor(Math.random() * 2)];
+            document.getElementById('tk-m10-v2').innerText = "Velocidade do Ponteiro: Estável";
+            document.getElementById('btn-ativar-m10').innerText = "ATIVAR NO ANDROID";
         }
 
         document.getElementById('resultado-tiktok').style.display = 'block';
@@ -530,7 +529,7 @@
     }
 
     function ativarConfigArma(arma) {
-        alert("🚀 Ajustes da " + arma + " injetados com sucesso via script interno!");
+        alert("🚀 Ajustes da " + arma + " injetados com sucesso!");
     }
 
     let marcaSelecionada = '';
@@ -546,7 +545,7 @@
     function escolherFiltro(tipo) {
         filtroSensi = tipo;
         const dados = marcasDados[marcaSelecionada];
-        document.getElementById('titulo-marcas-modelos').innerText = dados.titulo + (tipo === 'alto' ? " (MAX 200)" : " (MAX 100)");
+        document.getElementById('titulo-marcas-modelos').innerText = dados.titulo;
         
         const containerBotoes = document.getElementById('lista-botoes-modelos');
         containerBotoes.innerHTML = '';
@@ -568,36 +567,13 @@
         const modeloEscolhido = marcasDados[marcaSelecionada].modelos[index];
         document.getElementById('titulo-modelo-escolhido').innerText = "🎯 " + modeloEscolhido.nome.toUpperCase();
         
-        if (filtroSensi === 'alto') {
-            let gAlto = Math.min(200, parseInt(modeloEscolhido.geral) * 2);
-            let rAlto = Math.min(200, parseInt(modeloEscolhido.reddot) * 2);
-            let m2xAlto = Math.min(200, parseInt(modeloEscolhido.m2x) * 2);
-            let m4xAlto = Math.min(200, parseInt(modeloEscolhido.m4x) * 2);
-
-            document.getElementById('sensi-geral').innerText = "Geral: " + gAlto;
-            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + rAlto;
-            document.getElementById('sensi-2x').innerText = "Mira 2x: " + m2xAlto;
-            document.getElementById('sensi-4x').innerText = "Mira 4x: " + m4xAlto;
-            
-            document.getElementById('sensi-X').innerText = "Sensibilidade X: 200% Otimizada";
-            document.getElementById('sensi-Y').innerText = "Sensibilidade Y: 200% Trava Mira";
-            document.getElementById('sensi-velocidade').innerText = "Frequência Hacker: 360Hz | Delay: 0.01ms";
-            document.getElementById('sensi-regedit').innerText = "Status: BYPASS_TRAVA_HEAD=200";
-        } else {
-            document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
-            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + modeloEscolhido.reddot;
-            document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
-            document.getElementById('sensi-4x').innerText = "Mira 4x: " + modeloEscolhido.m4x;
-            
-            document.getElementById('sensi-X').innerText = "Sensibilidade X: " + modeloEscolhido.x;
-            document.getElementById('sensi-Y').innerText = "Sensibilidade Y: " + modeloEscolhido.y;
-            document.getElementById('sensi-velocidade').innerText = modeloEscolhido.ms;
-            document.getElementById('sensi-regedit').innerText = "Injetado: " + modeloEscolhido.regedit;
-        }
-        
+        document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
+        document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + modeloEscolhido.reddot;
+        document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
+        document.getElementById('sensi-4x').innerText = "Mira 4x: " + modeloEscolhido.m4x;
         document.getElementById('sensi-dpi').innerText = modeloEscolhido.dpi;
+        
         document.getElementById('resultado').style.display = 'block';
-        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
     }
 
     function voltarParaMarcas() {
@@ -614,41 +590,38 @@
         iphone: {
             titulo: "🍏 IPHONE",
             modelos: [
-                { nome: "iPhone 11 / 11 Pro Max", geral: "98", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "Cursor Móvel: 120", regedit: "AIM_ASSIST_IP11=1" },
-                { nome: "iPhone 13 / 13 Pro Max", geral: "99", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Delay: 0.1ms", dpi: "Cursor Móvel: 120 Max", regedit: "GLITCH_IP13=1" },
-                { nome: "iPhone 15 / 15 Pro Max", geral: "100", reddot: "96", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Delay: 0.0ms", dpi: "Cursor Móvel: 120 Ultra", regedit: "BYPASS_IOS15=1" }
+                { nome: "iPhone 11 / 11 Pro Max", geral: "98", reddot: "94", m2x: "98", m4x: "95", dpi: "Cursor: 120" },
+                { nome: "iPhone 13 / 13 Pro Max", geral: "99", reddot: "95", m2x: "99", m4x: "96", dpi: "Cursor: 120 Max" }
             ]
         },
         samsung: {
             titulo: "📱 SAMSUNG",
             modelos: [
-                { nome: "Samsung Galaxy A54 / A73", geral: "99", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Delay Toque: 0.4ms", dpi: "DPI: 720", regedit: "TOUCH_FIX=TRUE" },
-                { nome: "Samsung Galaxy S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "Resposta: 240Hz", dpi: "DPI: 800", regedit: "S_ULTRA_BOOSTER=1" }
+                { nome: "Samsung Galaxy S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", dpi: "DPI: 800" }
             ]
         },
         xiaomi: {
             titulo: "📱 XIAOMI",
             modelos: [
-                { nome: "Redmi Note 12 / Note 13", geral: "100", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "DPI: 690", regedit: "STABILIZER_REDMI=1" },
-                { nome: "Poco X5 / X6 Pro", geral: "100", reddot: "97", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Resposta: 0.1ms", dpi: "DPI: 760", regedit: "POCO_AIMLOCK=1" }
+                { nome: "Poco X6 Pro", geral: "100", reddot: "97", m2x: "100", m4x: "98", dpi: "DPI: 760" }
             ]
         },
         motorola: {
             titulo: "📱 MOTOROLA",
             modelos: [
-                { nome: "Moto G60 / G82 / G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Velocidade: Max", dpi: "DPI: 620", regedit: "PERFECT_HIT=1" }
+                { nome: "Moto G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", dpi: "DPI: 620" }
             ]
         },
         infinix: {
             titulo: "⚡ INFINIX",
             modelos: [
-                { nome: "Infinix Note 30 Pro", geral: "100", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Amostragem: Max", dpi: "DPI: 600", regedit: "NOTE_AIMLOCK=1" }
+                { nome: "Infinix Note 30 Pro", geral: "100", reddot: "93", m2x: "97", m4x: "95", dpi: "DPI: 600" }
             ]
         },
         realme: {
             titulo: "🟡 REALME",
             modelos: [
-                { nome: "RealMe 11 Pro Plus", geral: "99", reddot: "94", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "HyperBoost: Ativo", dpi: "DPI: 660", regedit: "HYPERBOOST_LOCK=1" }
+                { nome: "RealMe 11 Pro Plus", geral: "99", reddot: "94", m2x: "98", m4x: "96", dpi: "DPI: 660" }
             ]
         }
     };
