@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Sensi VIP - Autenticação</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: #151a24;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #222c3c;
+        }
+        h1 {
+            color: #ffaa00;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        p {
+            color: #8a99ad;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .input-key {
+            width: 100%;
+            padding: 12px;
+            background: #0b0e14;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+        }
+        .input-key:focus {
+            border-color: #ffaa00;
+            outline: none;
+        }
+        .btn-entrar {
+            width: 100%;
+            padding: 12px;
+            background: #ffaa00;
+            color: #0b0e14;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-entrar:hover {
+            background: #e09500;
+        }
+        #conteudo-vip {
+            display: none;
+        }
+        .btn-marca {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-marca:hover {
+            background: #ffaa00;
+            color: #0b0e14;
+            border-color: #ffaa00;
+        }
+        .result-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #0b0e14;
+            border-radius: 10px;
+            border-left: 5px solid #ffaa00;
+            text-align: left;
+        }
+        .result-box h3 {
+            margin-top: 0;
+            color: #ffaa00;
+        }
+        .sensi-value {
+            background: #222c3c;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="tela-login">
+    <h1>🔑 SESSÃO BLOQUEADA</h1>
+    <p>Insira uma Chave VIP válida para liberar o Painel Gerador de Sensibilidade:</p>
+    
+    <input type="text" id="campo-key" class="input-key" placeholder="DIGITE SUA KEY AQUI">
+    <button class="btn-entrar" onclick="verificarKey()">ATIVAR ACESSO</button>
+</div>
+
+<div class="container" id="conteudo-vip">
+    <h1>👑 PAINEL GERADOR VIP</h1>
+    <p>Acesso Liberado! Selecione a marca do seu dispositivo para ver os ajustes:</p>
+
+    <button class="btn-marca" onclick="mostrarSensi('iphone')">🍏 iPhone (iOS)</button>
+    <button class="btn-marca" onclick="mostrarSensi('samsung')">📱 Samsung</button>
+    <button class="btn-marca" onclick="mostrarSensi('xiaomi')">📱 Xiaomi</button>
+    <button class="btn-marca" onclick="mostrarSensi('motorola')">📱 Motorola</button>
+    <button class="btn-marca" onclick="mostrarSensi('infinix')">📱 Infinix / Outros</button>
+
+    <div id="resultado" class="result-box">
+        <h3 id="titulo-marca">Marca Selecionada</h3>
+        <p style="color: #fff; margin-bottom: 10px;">🎯 <strong>Ajuste Recomendado:</strong></p>
+        <span class="sensi-value" id="sensi-geral">Geral: --</span>
+        <span class="sensi-value" id="sensi-reddot">RedDot: --</span>
+        <span class="sensi-value" id="sensi-2x">Mira 2x: --</span>
+        <span class="sensi-value" id="sensi-4x">Mira 4x: --</span>
+        <span class="sensi-value" id="sensi-dpi">DPI: --</span>
+        
+        <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">📦 <strong>Arquivo Regedit:</strong></p>
+        <span class="sensi-value" id="sensi-regedit">Código: --</span>
+    </div>
+</div>
+
+<script>
+    // 🎫 KEYS PARA ENTRAR NO SITE
+    // Seus clientes podem digitar qualquer uma dessas chaves para entrar no site:
+    const keysValidas = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"];
+
+    function verificarKey() {
+        const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
+
+        if (keysValidas.includes(keyDigitada)) {
+            alert("🎉 Acesso VIP Autorizado!");
+            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('conteudo-vip').style.display = 'block';
+        } else {
+            alert("❌ Chave VIP inválida!");
+        }
+    }
+
+    const dadosSensi = {
+        iphone: { titulo: "🍏 IPHONE VIP", geral: "100", reddot: "94", m2x: "98", m4x: "96", dpi: "Cursor Móvel: 120", regedit: "aim_lock_ios=true" },
+        samsung: { titulo: "📱 SAMSUNG VIP", geral: "98", reddot: "91", m2x: "95", m4x: "93", dpi: "DPI: 720 | Ponteiro: Máximo", regedit: "sensibility_booster=1" },
+        xiaomi: { titulo: "📱 XIAOMI VIP", geral: "97", reddot: "95", m2x: "92", m4x: "90", dpi: "DPI: 680 | Game Turbo no Máximo", regedit: "touch_response=0.1ms" },
+        motorola: { titulo: "📱 MOTOROLA VIP", geral: "100", reddot: "89", m2x: "96", m4x: "94", dpi: "DPI: 580 | Permanência: Curta", regedit: "perfect_hit_stabilizer=true" },
+        infinix: { titulo: "📱 INFINIX & OUTROS VIP", geral: "99", reddot: "92", m2x: "94", m4x: "91", dpi: "DPI: 600", regedit: "global_aim_assist=1" }
+    };
+
+    function mostrarSensi(marca) {
+        const dados = dadosSensi[marca];
+        document.getElementById('titulo-marca').innerText = dados.titulo;
+        document.getElementById('sensi-geral').innerText = "Geral: " + dados.geral;
+        document.getElementById('sensi-reddot').innerText = "RedDot: " + dados.reddot;
+        document.getElementById('sensi-2x').innerText = "Mira 2x: " + dados.m2x;
+        document.getElementById('sensi-4x').innerText = "Mira 4x: " + dados.m4x;
+        document.getElementById('sensi-dpi').innerText = dados.dpi;
+        document.getElementById('sensi-regedit').innerText = dados.regedit;
+        
+        document.getElementById('resultado').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
