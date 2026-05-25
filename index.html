@@ -444,7 +444,7 @@
             } else if(progresso < 75) {
                 statusTxt.innerText = "⚡ Decodificando pacotes de sensibilidade para " + (sistemaSelecionadoTikTok === 'ios' ? 'iPhone' : 'Android') + "...";
             } else {
-                statusTxt.innerText = "📦 Montando chaves internas por arma...";
+                statusTxt.innerText = "📦 Montando chaves internas...";
             }
 
             if(progresso >= 100) {
@@ -472,19 +472,15 @@
             tituloContainer.style.color = "#00e5ff";
             labelCard.innerText = "🍏 AJUSTES IOS SYSTEM";
 
-            // REGRAS: Ciclo vai até 10
             let cicloSorteado = Math.floor(Math.random() * 10) + 1; 
             document.getElementById('tk-sensi-v1').innerText = "Ciclo: " + cicloSorteado;
 
-            // REGRAS: Cursor Móvel (Individual, Refinado, Preciso)
             let tiposCursor = ["Individual", "Refinado", "Preciso"];
             let cursorSorteado = tiposCursor[Math.floor(Math.random() * tiposCursor.length)];
             let valorCursor = [110, 115, 120][Math.floor(Math.random() * 3)];
             document.getElementById('tk-sensi-v2').innerText = "Curso Móvel: " + valorCursor + " (" + cursorSorteado + ")";
 
-            // Adicionado Botão de atirar no iPhone também!
             document.getElementById('tk-sensi-v3').innerText = "Botão de atirar: " + tamBotao + "%";
-
             btnAtivar.innerText = "ATIVAR NO IPHONE";
         } else {
             tituloContainer.innerText = "🤖 SENSI EXTRAÍDA PARA ANDROID";
@@ -495,7 +491,6 @@
             document.getElementById('tk-sensi-v1').innerText = "DPI: " + dpiSorteada;
             document.getElementById('tk-sensi-v2').innerText = "Velocidade do Curso: Máxima";
             document.getElementById('tk-sensi-v3').innerText = "Botão de atirar: " + tamBotao + "%";
-
             btnAtivar.innerText = "ATIVAR NO ANDROID";
         }
 
