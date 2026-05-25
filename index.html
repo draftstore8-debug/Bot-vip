@@ -113,3 +113,239 @@
         .result-box {
             display: none;
             margin-top: 25px;
+            padding: 20px;
+            background: #0b0e14;
+            border-radius: 10px;
+            border-left: 5px solid #ffaa00;
+            text-align: left;
+        }
+        .result-box h3 {
+            margin-top: 0;
+            color: #ffaa00;
+        }
+        .sensi-value {
+            background: #222c3c;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="tela-login">
+    <h1>🔑 SESSÃO BLOQUEADA</h1>
+    <p>Insira uma Chave VIP válida gerada pelo bot para liberar o Painel:</p>
+    <input type="text" id="campo-key" class="input-key" placeholder="DIGITE SUA KEY AQUI">
+    <button class="btn-entrar" onclick="verificarKey()">ATIVAR ACESSO</button>
+</div>
+
+<div class="container" id="conteudo-vip">
+    <h1>👑 PAINEL GERADOR VIP</h1>
+    <p>Acesso Liberado! Selecione a marca do seu celular:</p>
+    <button class="btn-marca" onclick="selecionarMarca('iphone')">🍏 iPhone (iOS)</button>
+    <button class="btn-marca" onclick="selecionarMarca('samsung')">📱 Samsung</button>
+    <button class="btn-marca" onclick="selecionarMarca('xiaomi')">📱 Xiaomi / POCO</button>
+    <button class="btn-marca" onclick="selecionarMarca('motorola')">📱 Motorola</button>
+    <button class="btn-marca" onclick="selecionarMarca('infinix')">⚡ Infinix</button>
+    <button class="btn-marca" onclick="selecionarMarca('realme')">🟡 RealMe</button>
+</div>
+
+<div class="container" id="area-filtro">
+    <h1 id="titulo-filtro">Configurações de Sensi</h1>
+    <p>Selecione o tipo de calibração que deseja para o seu aparelho:</p>
+    <button class="btn-filtro" onclick="escolherFiltro('baixo')">📉 SENSI REGULAR (Abaixo de 100)</button>
+    <button class="btn-filtro btn-filtro-alto" onclick="escolherFiltro('alto')">⚡ SENSI HACKER VVIP (Até 200)</button>
+    <button class="btn-marca btn-voltar" onclick="voltarParaMarcas()">⬅️ Mudar de Marca</button>
+</div>
+
+<div class="container" id="area-modelos">
+    <h1 id="titulo-marcas-modelos">Modelos Disponíveis</h1>
+    <p>Selecione o modelo exato do seu aparelho:</p>
+
+    <div id="lista-botoes-modelos"></div>
+
+    <div id="resultado" class="result-box">
+        <h3 id="titulo-modelo-escolhido">Modelo Selecionado</h3>
+        <p style="color: #fff; margin-bottom: 10px;">🎯 <strong>Configuração de Sensibilidade In-Game:</strong></p>
+        <span class="sensi-value" id="sensi-geral">Geral: --</span>
+        <span class="sensi-value" id="sensi-reddot">Ponto Vermelho: --</span>
+        <span class="sensi-value" id="sensi-2x">Mira 2x: --</span>
+        <span class="sensi-value" id="sensi-4x">Mira 4x: --</span>
+        
+        <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">⚡ <strong>Otimizadores de Frequência (Bypass):</strong></p>
+        <span class="sensi-value" id="sensi-Y" style="color: #ffaa00;">Aceleração Y: --</span>
+        <span class="sensi-value" id="sensi-X" style="color: #ffaa00;">Estabilizador X: --</span>
+        <span class="sensi-value" id="sensi-velocidade" style="color: #00e5ff;">Resposta do Toque: --</span>
+
+        <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">⚙️ <strong>Configurações do Sistema:</strong></p>
+        <span class="sensi-value" id="sensi-dpi">DPI: --</span>
+        
+        <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">📦 <strong>Injetor Regedit Interno (Ativo):</strong></p>
+        <span class="sensi-value" id="sensi-regedit" style="color: #00ff66; font-weight: bold;">Código: --</span>
+    </div>
+
+    <button class="btn-marca btn-voltar" onclick="voltarParaFiltro()">⬅️ Mudar Tipo de Sensi</button>
+</div>
+
+<script>
+    function verificarKey() {
+        const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
+        const ehChaveFixa = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"].includes(keyDigitada);
+        const ehChaveDoBot = keyDigitada.startsWith("SENSI-") && keyDigitada.length >= 10;
+
+        if (ehChaveFixa || ehChaveDoBot) {
+            alert("🎉 Acesso VIP Autorizado!");
+            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('conteudo-vip').style.display = 'block';
+        } else {
+            alert("❌ Chave VIP inválida!");
+        }
+    }
+
+    let marcaSelecionada = '';
+    let filtroSensi = ''; 
+
+    function selecionarMarca(marca) {
+        marcaSelecionada = marca;
+        document.getElementById('titulo-filtro').innerText = "⚙️ REFINAR " + marca.toUpperCase();
+        document.getElementById('conteudo-vip').style.display = 'none';
+        document.getElementById('area-filtro').style.display = 'block';
+    }
+
+    function escolherFiltro(tipo) {
+        filtroSensi = tipo;
+        const dados = marcasDados[marcaSelecionada];
+        
+        document.getElementById('titulo-marcas-modelos').innerText = dados.titulo + (tipo === 'alto' ? " (MAX 200)" : " (MAX 100)");
+        
+        const containerBotoes = document.getElementById('lista-botoes-modelos');
+        containerBotoes.innerHTML = '';
+        document.getElementById('resultado').style.display = 'none';
+
+        dados.modelos.forEach((mod, index) => {
+            const botao = document.createElement('button');
+            botao.className = 'btn-modelo';
+            botao.innerText = mod.nome;
+            botao.onclick = function() { mostrarSensiModelo(index); };
+            containerBotoes.appendChild(botao);
+        });
+
+        document.getElementById('area-filtro').style.display = 'none';
+        document.getElementById('area-modelos').style.display = 'block';
+    }
+
+    function mostrarSensiModelo(index) {
+        const modeloEscolhido = marcasDados[marcaSelecionada].modelos[index];
+        document.getElementById('titulo-modelo-escolhido').innerText = "🎯 " + modeloEscolhido.nome.toUpperCase();
+        
+        if (filtroSensi === 'alto') {
+            // CORREÇÃO AQUI: Multiplica por 2 e limita rigorosamente em 200 no teto!
+            let gAlto = Math.min(200, parseInt(modeloEscolhido.geral) * 2);
+            let rAlto = Math.min(200, parseInt(modeloEscolhido.reddot) * 2);
+            let m2xAlto = Math.min(200, parseInt(modeloEscolhido.m2x) * 2);
+            let m4xAlto = Math.min(200, parseInt(modeloEscolhido.m4x) * 2);
+
+            document.getElementById('sensi-geral').innerText = "Geral: " + gAlto;
+            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + rAlto;
+            document.getElementById('sensi-2x').innerText = "Mira 2x: " + m2xAlto;
+            document.getElementById('sensi-4x').innerText = "Mira 4x: " + m4xAlto;
+            
+            document.getElementById('sensi-X').innerText = "Sensibilidade X (Lados): 200% Otimizada";
+            document.getElementById('sensi-Y').innerText = "Sensibilidade Y (Capa): 200% Trava Mira";
+            document.getElementById('sensi-velocidade').innerText = "Frequência Hacker: 360Hz | Delay: 0.01ms";
+            document.getElementById('sensi-regedit').innerText = "Status: BYPASS_TRAVA_HEAD=200";
+        } else {
+            // Sensi normal (Abaixo de 100) baseada no seu painel funcionando
+            document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
+            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + modeloEscolhido.reddot;
+            document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
+            document.getElementById('sensi-4x').innerText = "Mira 4x: " + modeloEscolhido.m4x;
+            
+            document.getElementById('sensi-X').innerText = "Sensibilidade X (Lados): " + modeloEscolhido.x;
+            document.getElementById('sensi-Y').innerText = "Sensibilidade Y (Capa): " + modeloEscolhido.y;
+            document.getElementById('sensi-velocidade').innerText = modeloEscolhido.ms;
+            document.getElementById('sensi-regedit').innerText = "Injetado: " + modeloEscolhido.regedit;
+        }
+        
+        document.getElementById('sensi-dpi').innerText = modeloEscolhido.dpi;
+        document.getElementById('resultado').style.display = 'block';
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function voltarParaMarcas() {
+        document.getElementById('area-filtro').style.display = 'none';
+        document.getElementById('conteudo-vip').style.display = 'block';
+    }
+
+    function voltarParaFiltro() {
+        document.getElementById('area-modelos').style.display = 'none';
+        document.getElementById('area-filtro').style.display = 'block';
+    }
+
+    // Banco de dados padrão puxando de 1 a 100 perfeitamente
+    const marcasDados = {
+        iphone: {
+            titulo: "🍏 IPHONE",
+            modelos: [
+                { nome: "iPhone 8 / 8 Plus", geral: "92", reddot: "85", m2x: "94", m4x: "89", x: "100%", y: "100%", ms: "Delay: 1.0ms", dpi: "Cursor Móvel: 115", regedit: "TRACKING_IOS8=1" },
+                { nome: "iPhone X / XR / XS", geral: "95", reddot: "91", m2x: "96", m4x: "92", x: "100%", y: "100%", ms: "Delay: 0.5ms", dpi: "Cursor Móvel: 120", regedit: "SMOOTH_XR=1" },
+                { nome: "iPhone 11 / 11 Pro Max", geral: "98", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "Cursor Móvel: 120", regedit: "AIM_ASSIST_IP11=1" },
+                { nome: "iPhone 12 / 12 Pro", geral: "94", reddot: "89", m2x: "95", m4x: "91", x: "100%", y: "100%", ms: "Delay: 0.3ms", dpi: "Cursor Móvel: 118", regedit: "STABILIZER_IP12=1" },
+                { nome: "iPhone 13 / 13 Pro Max", geral: "99", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Delay: 0.1ms", dpi: "Cursor Móvel: 120 Max", regedit: "GLITCH_IP13=1" },
+                { nome: "iPhone 14 / 14 Pro Max", geral: "97", reddot: "92", m2x: "96", m4x: "93", x: "100%", y: "100%", ms: "Delay: 0.1ms", dpi: "Cursor Móvel: 120 Individual", regedit: "AIM_LOCK_PRO=1" },
+                { nome: "iPhone 15 / 15 Pro Max", geral: "100", reddot: "96", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Delay: 0.0ms", dpi: "Cursor Móvel: 120 Ultra", regedit: "BYPASS_IOS15=1" },
+                { nome: "iPhone 16 / 16 Pro Max", geral: "100", reddot: "98", m2x: "100", m4x: "99", x: "100%", y: "100%", ms: "Frequência: 300Hz", dpi: "Toque Otimizado", regedit: "ULTRA_AIMBOT=1" }
+            ]
+        },
+        samsung: {
+            titulo: "📱 SAMSUNG",
+            modelos: [
+                { nome: "Samsung Galaxy A10 / A20 / A30", geral: "96", reddot: "88", m2x: "93", m4x: "91", x: "100%", y: "100%", ms: "Ponteiro: Rápido", dpi: "DPI: 580", regedit: "A_BOOST_V2=1" },
+                { nome: "Samsung Galaxy A54 / A73", geral: "99", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Delay Toque: 0.4ms", dpi: "DPI: 720", regedit: "TOUCH_FIX=TRUE" },
+                { nome: "Samsung Galaxy S20 / S21 FE", geral: "95", reddot: "90", m2x: "94", m4x: "92", x: "100%", y: "100%", ms: "Ponteiro: Max", dpi: "DPI: 600", regedit: "AIM_TRACK_S=1" },
+                { nome: "Samsung Galaxy S22 / S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "Resposta: 240Hz", dpi: "DPI: 800", regedit: "S_ULTRA_BOOSTER=1" },
+                { nome: "Samsung Galaxy S24 Ultra", geral: "100", reddot: "98", m2x: "100", m4x: "99", x: "100%", y: "100%", ms: "Resposta: 360Hz", dpi: "DPI: 960", regedit: "S24_GOD_STABILIZER=1" }
+            ]
+        },
+        xiaomi: {
+            titulo: "📱 XIAOMI",
+            modelos: [
+                { nome: "Redmi Note 10 / Note 11", geral: "97", reddot: "91", m2x: "94", m4x: "92", x: "100%", y: "100%", ms: "Game Turbo Ativo", dpi: "DPI: 610", regedit: "MI_RESPONSE=1" },
+                { nome: "Redmi Note 12 / Note 13", geral: "100", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "DPI: 690", regedit: "STABILIZER_REDMI=1" },
+                { nome: "Poco X3 Pro / X4 Pro", geral: "96", reddot: "91", m2x: "95", m4x: "93", x: "100%", y: "100%", ms: "Telas: 120Hz", dpi: "DPI: 610", regedit: "POCO_CLICK=1" },
+                { nome: "Poco X5 / X6 Pro", geral: "100", reddot: "97", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Resposta: 0.1ms", dpi: "DPI: 760", regedit: "POCO_AIMLOCK=1" }
+            ]
+        },
+        motorola: {
+            titulo: "📱 MOTOROLA",
+            modelos: [
+                { nome: "Moto G30 / G52 / G22", geral: "98", reddot: "90", m2x: "95", m4x: "93", x: "100%", y: "100%", ms: "Atraso: Mínimo", dpi: "DPI: 540", regedit: "MOTO_G_BOOST=1" },
+                { nome: "Moto G60 / G82 / G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Velocidade: Max", dpi: "DPI: 620", regedit: "PERFECT_HIT=1" },
+                { nome: "Motorola Edge 30 / 40", geral: "96", reddot: "92", m2x: "94", m4x: "92", x: "100%", y: "100%", ms: "Feedback Rápido", dpi: "DPI: 590", regedit: "EDGE_ASSIST=1" },
+                { nome: "Motorola Edge 50 Ultra", geral: "100", reddot: "98", m2x: "100", m4x: "99", x: "100%", y: "100%", ms: "Delay Total: 0.0ms", dpi: "DPI: 710", regedit: "MOTO_STABILIZER=1" }
+            ]
+        },
+        infinix: {
+            titulo: "⚡ INFINIX",
+            modelos: [
+                { nome: "Infinix Hot 11 / Hot 12", geral: "97", reddot: "88", m2x: "94", m4x: "91", x: "100%", y: "100%", ms: "XArena Otimizado", dpi: "DPI: 520", regedit: "INFINIX_BOOST=1" },
+                { nome: "Infinix Note 30 Pro", geral: "100", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Amostragem: Max", dpi: "DPI: 600", regedit: "NOTE_AIMLOCK=1" },
+                { nome: "Infinix Zero Ultra", geral: "100", reddot: "96", m2x: "99", m4x: "97", x: "100%", y: "100%", ms: "GPU Render Ativa", dpi: "DPI: 640", regedit: "ZERO_TRACKING=1" }
+            ]
+        },
+        realme: {
+            titulo: "🟡 REALME",
+            modelos: [
+                { nome: "RealMe C55 / C67", geral: "96", reddot: "91", m2x: "95", m4x: "92", x: "100%", y: "100%", ms: "Espaço Jogos Pro", dpi: "DPI: 580", regedit: "REALME_C_FIX=1" },
+                { nome: "RealMe 11 Pro Plus", geral: "99", reddot: "94", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "HyperBoost: Ativo", dpi: "DPI: 660", regedit: "HYPERBOOST_LOCK=1" },
+                { nome: "RealMe GT3 VIP", geral: "100", reddot: "97", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Modo GT Forçado", dpi: "DPI: 720", regedit: "GT_AIMBOT=1" }
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
