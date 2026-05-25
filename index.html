@@ -318,6 +318,9 @@
                 <h4 id="label-card-principal">🎯 CONFIGURAÇÃO COMPLETA</h4>
                 <div class="sensi-value" id="tk-sensi-geral">Geral: --</div>
                 <div class="sensi-value" id="tk-sensi-red">Ponto Vermelho: --</div>
+                <div class="sensi-value" id="tk-sensi-2x">Mira 2x: --</div>
+                <div class="sensi-value" id="tk-sensi-4x">Mira 4x: --</div>
+                <div class="sensi-value" id="tk-sensi-awm">Mira AWM: --</div>
                 <div class="sensi-value" id="tk-sensi-v1">Ciclo: --</div>
                 <div class="sensi-value" id="tk-sensi-v2">Curso Móvel: --</div>
                 <div class="sensi-value" id="tk-sensi-v3">Botão de atirar: --</div>
@@ -463,12 +466,20 @@
         let labelCard = document.getElementById('label-card-principal');
         let btnAtivar = document.getElementById('btn-ativar-unica');
         
+        // Sorteando os valores dinâmicos das miras e botão
         let gSensi = Math.floor(Math.random() * (198 - 145 + 1)) + 145;
         let rSensi = Math.floor(Math.random() * (195 - 150 + 1)) + 150;
+        let m2x = Math.floor(Math.random() * (198 - 160 + 1)) + 160;
+        let m4x = Math.floor(Math.random() * (196 - 155 + 1)) + 155;
+        let mAw = Math.floor(Math.random() * (100 - 45 + 1)) + 45;
         let tamBotao = Math.floor(Math.random() * (55 - 41 + 1)) + 41;
 
+        // Injetando os textos nos IDs correspondentes
         document.getElementById('tk-sensi-geral').innerText = "Geral: " + gSensi;
         document.getElementById('tk-sensi-red').innerText = "Ponto Vermelho: " + rSensi;
+        document.getElementById('tk-sensi-2x').innerText = "Mira 2x: " + m2x;
+        document.getElementById('tk-sensi-4x').innerText = "Mira 4x: " + m4x;
+        document.getElementById('tk-sensi-awm').innerText = "Mira AWM: " + mAw;
 
         if(sistemaSelecionadoTikTok === 'ios') {
             tituloContainer.innerText = "🍏 SENSI EXTRAÍDA PARA IPHONE";
