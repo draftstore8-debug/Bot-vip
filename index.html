@@ -164,20 +164,19 @@
             margin: 5px 0;
         }
 
-        /* LAYOUT CLONADOR ESTILO VÍDEO DO TIKTOK */
+        /* CLONADOR ESTILO TIKTOK */
         .loading-container {
             display: none;
             margin-top: 20px;
             text-align: center;
         }
-        /* Bolinha com a foto de perfil do criador */
         .avatar-tiktok {
             width: 100px;
             height: 100px;
             border-radius: 50%;
             border: 4px solid #ffaa00;
             margin: 0 auto 15px auto;
-            background-image: url('https://i.imgur.com/8Q5FvX8.png'); /* Avatar Estilizado TikTok */
+            background-image: url('https://i.imgur.com/8Q5FvX8.png');
             background-size: cover;
             background-position: center;
             box-shadow: 0 0 20px rgba(255, 170, 0, 0.5);
@@ -204,7 +203,6 @@
             margin-top: 5px;
         }
         
-        /* Cards das Armas baseadas nos vídeos clássicos de Sensi */
         .card-arma {
             background: #0b0e14;
             border: 1px solid #222c3c;
@@ -247,7 +245,7 @@
         <button class="btn-marca" onclick="selecionarMarca('iphone')">🍏 iPhone (iOS)</button>
         <button class="btn-marca" onclick="selecionarMarca('samsung')">📱 Samsung</button>
         <button class="btn-marca" onclick="selecionarMarca('xiaomi')">📱 Xiaomi / POCO</button>
-        <button class="btn-marca" onclick="motorola('motorola')">📱 Motorola</button>
+        <button class="btn-marca" onclick="selecionarMarca('motorola')">📱 Motorola</button>
         <button class="btn-marca" onclick="selecionarMarca('infinix')">⚡ Infinix</button>
         <button class="btn-marca" onclick="selecionarMarca('realme')">🟡 RealMe</button>
     </div>
@@ -322,8 +320,18 @@
 </div>
 
 <script>
+    // SISTEMA DE VALIDAÇÃO DE KEYS CORRIGIDO
     function verificarKey() {
-        const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
+        const campo = document.getElementById('campo-key');
+        if (!campo) return;
+        
+        const keyDigitada = campo.value.trim().toUpperCase();
+
+        if (keyDigitada === "") {
+            alert("⚠️ Por favor, digite uma chave de acesso!");
+            return;
+        }
+
         const ehChaveFixa = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"].includes(keyDigitada);
         const ehChaveDoBot = keyDigitada.startsWith("SENSI-") && keyDigitada.length >= 10;
 
@@ -332,7 +340,7 @@
             document.getElementById('tela-login').style.display = 'none';
             document.getElementById('conteudo-vip').style.display = 'block';
         } else {
-            alert("❌ Chave VIP inválida!");
+            alert("❌ Chave VIP inválida ou expirada! Verifique com o Bot.");
         }
     }
 
@@ -360,8 +368,7 @@
         }
     }
 
-    // Sistema de Clonagem idêntico ao vídeo do TikTok
-    function ejecutarClonagemTikTok() {
+    function executarClonagemTikTok() {
         let campoVal = document.getElementById('codigo-tiktok').value.trim();
         if(!campoVal) {
             alert("⚠️ Insira o código ou link do vídeo do famoso primeiro!");
@@ -377,7 +384,6 @@
         let statusTxt = document.getElementById('status-texto-tk');
         let avatar = document.getElementById('avatar-dinamico');
 
-        // Se quiser usar fotos fixas, basta alterar a URL abaixo
         avatar.style.backgroundImage = "url('https://i.imgur.com/8Q5FvX8.png')";
 
         let timer = setInterval(() => {
@@ -398,11 +404,10 @@
                 document.getElementById('loader-tiktok').style.display = 'none';
                 mostrarValoresArmasFF();
             }
-        }, 50); // Velocidade de carregamento ideal para dar suspense
+        }, 50);
     }
 
     function mostrarValoresArmasFF() {
-        // Gerador de códigos cravados com pegada hacker/VVIP de até 200
         document.getElementById('tk-desert-geral').innerText = "Geral: " + (Math.floor(Math.random() * (198 - 140 + 1)) + 140);
         document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + (Math.floor(Math.random() * (195 - 150 + 1)) + 150);
         document.getElementById('tk-desert-dpi').innerText = "DPI Recomendada: " + [580, 620, 720, 840, 960][Math.floor(Math.random() * 5)] + " DPI";
@@ -490,4 +495,53 @@
     }
 
     function voltarParaFiltro() {
-        document.getElementById('area-modelos').style.
+        document.getElementById('area-modelos').style.display = 'none';
+        document.getElementById('area-filtro').style.display = 'block';
+    }
+
+    const marcasDados = {
+        iphone: {
+            titulo: "🍏 IPHONE",
+            modelos: [
+                { nome: "iPhone 11 / 11 Pro Max", geral: "98", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "Cursor Móvel: 120", regedit: "AIM_ASSIST_IP11=1" },
+                { nome: "iPhone 13 / 13 Pro Max", geral: "99", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Delay: 0.1ms", dpi: "Cursor Móvel: 120 Max", regedit: "GLITCH_IP13=1" },
+                { nome: "iPhone 15 / 15 Pro Max", geral: "100", reddot: "96", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Delay: 0.0ms", dpi: "Cursor Móvel: 120 Ultra", regedit: "BYPASS_IOS15=1" }
+            ]
+        },
+        samsung: {
+            titulo: "📱 SAMSUNG",
+            modelos: [
+                { nome: "Samsung Galaxy A54 / A73", geral: "99", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Delay Toque: 0.4ms", dpi: "DPI: 720", regedit: "TOUCH_FIX=TRUE" },
+                { nome: "Samsung Galaxy S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "Resposta: 240Hz", dpi: "DPI: 800", regedit: "S_ULTRA_BOOSTER=1" }
+            ]
+        },
+        xiaomi: {
+            titulo: "📱 XIAOMI",
+            modelos: [
+                { nome: "Redmi Note 12 / Note 13", geral: "100", reddot: "94", m2x: "98", m4x: "95", x: "100%", y: "100%", ms: "Delay: 0.2ms", dpi: "DPI: 690", regedit: "STABILIZER_REDMI=1" },
+                { nome: "Poco X5 / X6 Pro", geral: "100", reddot: "97", m2x: "100", m4x: "98", x: "100%", y: "100%", ms: "Resposta: 0.1ms", dpi: "DPI: 760", regedit: "POCO_AIMLOCK=1" }
+            ]
+        },
+        motorola: {
+            titulo: "📱 MOTOROLA",
+            modelos: [
+                { nome: "Moto G60 / G82 / G200", geral: "100", reddot: "95", m2x: "99", m4x: "96", x: "100%", y: "100%", ms: "Velocidade: Max", dpi: "DPI: 620", regedit: "PERFECT_HIT=1" }
+            ]
+        },
+        infinix: {
+            titulo: "⚡ INFINIX",
+            modelos: [
+                { nome: "Infinix Note 30 Pro", geral: "100", reddot: "93", m2x: "97", m4x: "95", x: "100%", y: "100%", ms: "Amostragem: Max", dpi: "DPI: 600", regedit: "NOTE_AIMLOCK=1" }
+            ]
+        },
+        realme: {
+            titulo: "🟡 REALME",
+            modelos: [
+                { nome: "RealMe 11 Pro Plus", geral: "99", reddot: "94", m2x: "98", m4x: "96", x: "100%", y: "100%", ms: "HyperBoost: Ativo", dpi: "DPI: 660", regedit: "HYPERBOOST_LOCK=1" }
+            ]
+        }
+    };
+</script>
+
+</body>
+</html>
