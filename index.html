@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel Sensi VIP - Autenticação</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0b0e14;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 500px;
+            background: #151a24;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+            text-align: center;
+            border: 1px solid #222c3c;
+        }
+        h1 {
+            color: #ffaa00;
+            margin-bottom: 10px;
+            font-size: 24px;
+        }
+        p {
+            color: #8a99ad;
+            font-size: 14px;
+            margin-bottom: 25px;
+        }
+        .input-key {
+            width: 100%;
+            padding: 12px;
+            background: #0b0e14;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            text-align: center;
+            margin-bottom: 15px;
+            box-sizing: border-box;
+            text-transform: uppercase;
+        }
+        .input-key:focus {
+            border-color: #ffaa00;
+            outline: none;
+        }
+        .btn-entrar {
+            width: 100%;
+            padding: 12px;
+            background: #ffaa00;
+            color: #0b0e14;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        .btn-entrar:hover {
+            background: #e09500;
+        }
+        #conteudo-vip, #area-modelos {
+            display: none;
+        }
+        .btn-marca, .btn-modelo {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+            text-align: center;
+            box-sizing: border-box;
+        }
+        .btn-marca:hover, .btn-modelo:hover {
+            background: #ffaa00;
+            color: #0b0e14;
+            border-color: #ffaa00;
+        }
+        .btn-voltar {
+            background: #ef4444;
+            color: white;
+            border: none;
+            margin-top: 15px;
+        }
+        .btn-voltar:hover {
+            background: #dc2626;
+            color: white;
+        }
+        .result-box {
+            display: none;
+            margin-top: 25px;
+            padding: 20px;
+            background: #0b0e14;
+            border-radius: 10px;
+            border-left: 5px solid #ffaa00;
+            text-align: left;
+        }
+        .result-box h3 {
+            margin-top: 0;
+            color: #ffaa00;
+        }
+        .sensi-value {
+            background: #222c3c;
+            padding: 8px;
+            border-radius: 5px;
+            font-family: monospace;
+            display: block;
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container" id="tela-login">
+    <h1>🔑 SESSÃO BLOQUEADA</h1>
+    <p>Insira uma Chave VIP válida gerada pelo bot para liberar o Painel:</p>
+    <input type="text" id="campo-key" class="input-key" placeholder="DIGITE SUA KEY AQUI">
+    <button class="btn-entrar" onclick="verificarKey()">ATIVAR ACESSO</button>
+</div>
+
+<div class="container" id="conteudo-vip">
+    <h1>👑 PAINEL GERADOR VIP</h1>
+    <p>Acesso Liberado! Selecione a marca do seu celular:</p>
+    <button class="btn-marca" onclick="abrirModelos('iphone')">🍏 iPhone (iOS)</button>
+    <button class="btn-marca" onclick="abrirModelos('samsung')">📱 Samsung</button>
+    <button class="btn-marca" onclick="abrirModelos('xiaomi')">📱 Xiaomi</button>
+    <button class="btn-marca" onclick="abrirModelos('motorola')">📱 Motorola</button>
+</div>
+
+<div class="container" id="area-modelos">
+    <h1 id="titulo-marcas-modelos">Modelos Disponíveis</h1>
+    <p>Selecione o modelo exato do seu aparelho:</p>
+
+    <div id="lista-botoes-modelos"></div>
+
+    <div id="resultado" class="result-box">
+        <h3 id="titulo-modelo-escolhido">Modelo Selecionado</h3>
+        <p style="color: #fff; margin-bottom: 10px;">🎯 <strong>Ajuste Recomendado:</strong></p>
+        <span class="sensi-value" id="sensi-geral">Geral: --</span>
+        <span class="sensi-value" id="sensi-reddot">RedDot: --</span>
+        <span class="sensi-value" id="sensi-2x">Mira 2x: --</span>
+        <span class="sensi-value" id="sensi-4x">Mira 4x: --</span>
+        <span class="sensi-value" id="sensi-dpi">DPI: --</span>
+        
+        <p style="color: #fff; margin-top: 15px; margin-bottom: 10px;">📦 <strong>Arquivo Regedit:</strong></p>
+        <span class="sensi-value" id="sensi-regedit">Código: --</span>
+    </div>
+
+    <button class="btn-marca btn-voltar" onclick="voltarParaMarcas()">⬅️ Voltar para Marcas</button>
+</div>
+
+<script>
+    // Chaves mestras que sempre vão funcionar
+    const chavesMestras = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"];
+    let chavesDoBot = [];
+
+    async function sincronizarKeys() {
+        try {
+            // Adicionado timestamp no final para evitar que o navegador use cache velho
+            const resposta = await fetch('https://raw.githubusercontent.com/draftstore8-debug/Bot-vip/main/keys-ativas.json?t=' + new Date().getTime());
+            if(resposta.ok) {
+                const textoDoArquivo = await resposta.text();
+                // Tenta ler o arquivo de forma segura, se estiver quebrado ele ignora e não quebra o site
+                try {
+                    chavesDoBot = JSON.parse(textoDoArquivo);
+                } catch(errJson) {
+                    console.log("Arquivo de chaves corrompido, usando apenas as mestras.");
+                }
+            }
+        } catch(e) {
+            console.log("Erro ao conectar com o bot.");
+        }
+    }
+    sincronizarKeys();
+
+    function verificarKey() {
+        const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
+        
+        if (chavesMestras.includes(keyDigitada) || (Array.isArray(chavesDoBot) && chavesDoBot.includes(keyDigitada))) {
+            alert("🎉 Acesso VIP Autorizado!");
+            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('conteudo-vip').style.display = 'block';
+        } else {
+            alert("❌ Chave VIP inválida!");
+        }
+    }
+
+    const marcasDados = {
+        iphone: {
+            titulo: "🍏 MODELOS IPHONE (iOS)",
+            modelos: [
+                { nome: "iPhone 8 / 8 Plus", geral: "94", reddot: "88", m2x: "95", m4x: "91", dpi: "Cursor: 115", regedit: "aimlock_ios8=1" },
+                { nome: "iPhone X / XR / XS", geral: "98", reddot: "92", m2x: "97", m4x: "94", dpi: "Cursor: 120", regedit: "sensi_booster_xr=true" },
+                { nome: "iPhone 11 / 11 Pro Max", geral: "100", reddot: "95", m2x: "98", m4x: "96", dpi: "Cursor: 120", regedit: "aim_assist_ip11=1" },
+                { nome: "iPhone 12 / 12 Pro", geral: "97", reddot: "91", m2x: "96", m4x: "93", dpi: "Cursor: 118", regedit: "stabilizer_v2=true" },
+                { nome: "iPhone 13 / 13 Pro Max", geral: "100", reddot: "94", m2x: "99", m4x: "95", dpi: "Cursor: 120", regedit: "headshot_glitch_ip13=1" },
+                { nome: "iPhone 14 / 14 Pro Max", geral: "99", reddot: "93", m2x: "95", m4x: "94", dpi: "Cursor: 120 Max", regedit: "aim_lock_pro=1" },
+                { nome: "iPhone 15 / 15 Pro Max", geral: "100", reddot: "96", m2x: "100", m4x: "98", dpi: "Cursor: 120", regedit: "bypass_smooth_ios15=true" },
+                { nome: "iPhone 16 / 16 Pro Max", geral: "100", reddot: "97", m2x: "100", m4x: "99", dpi: "Cursor: 120 Max", regedit: "ios16_ultra_lock=1" },
+                { nome: "iPhone 17 / 17 Pro (VIP)", geral: "100", reddot: "99", m2x: "100", m4x: "100", dpi: "Cursor: 120", regedit: "aim_prediction_ios17=true" }
+            ]
+        },
+        samsung: {
+            titulo: "📱 MODELOS SAMSUNG",
+            modelos: [
+                { nome: "Samsung Galaxy A10 / A20", geral: "95", reddot: "89", m2x: "92", m4x: "90", dpi: "DPI: 580", regedit: "samsung_a_boost=true" },
+                { nome: "Samsung Galaxy A54 / A73", geral: "98", reddot: "91", m2x: "96", m4x: "94", dpi: "DPI: 720", regedit: "touch_fix_samsung=1" },
+                { nome: "Samsung Galaxy S21 FE", geral: "97", reddot: "93", m2x: "95", m4x: "92", dpi: "DPI: 600", regedit: "aim_track_s_series=true" },
+                { nome: "Samsung Galaxy S23 Ultra", geral: "100", reddot: "95", m2x: "98", m4x: "96", dpi: "DPI: 800", regedit: "ultra_smooth_booster=1" },
+                { nome: "Samsung Galaxy S24 Ultra (VIP)", geral: "100", reddot: "98", m2x: "100", m4x: "99", dpi: "DPI: 960", regedit: "s24_aimbot_stabilizer=1" }
+            ]
+        },
+        xiaomi: {
+            titulo: "📱 MODELOS XIAOMI",
+            modelos: [
+                { nome: "Redmi Note 9 / Note 10", geral: "96", reddot: "90", m2x: "94", m4x: "91", dpi: "DPI: 550", regedit: "xiaomi_touch_response=0.2ms" },
+                { nome: "Redmi Note 11 / Note 12", geral: "99", reddot: "94", m2x: "97", m4x: "95", dpi: "DPI: 680", regedit: "aim_stabilizer_redmi=true" },
+                { nome: "Poco X3 Pro", geral: "97", reddot: "92", m2x: "95", m4x: "93", dpi: "DPI: 610", regedit: "poco_clicks_multiplier=1" },
+                { nome: "Poco X6 Pro VIP", geral: "100", reddot: "96", m2x: "99", m4x: "97", dpi: "DPI: 750", regedit: "poco_god_aim_lock=true" },
+                { nome: "Xiaomi 14 Ultra VIP", geral: "100", reddot: "97", m2x: "100", m4x: "99", dpi: "DPI: 820", regedit: "mi_flagship_regedit=1" }
+            ]
+        },
+        motorola: {
+            titulo: "📱 MODELOS MOTOROLA",
+            modelos: [
+                { nome: "Moto G30 / G60", geral: "98", reddot: "91", m2x: "96", m4x: "92", dpi: "DPI: 540", regedit: "moto_g_boost=1" },
+                { nome: "Moto G82 / G200", geral: "100", reddot: "94", m2x: "98", m4x: "95", dpi: "DPI: 620", regedit: "perfect_hit_motorola=true" },
+                { nome: "Motorola Edge 40 Neo", geral: "99", reddot: "93", m2x: "95", m4x: "94", dpi: "DPI: 590", regedit: "edge_aim_assist=1" },
+                { nome: "Motorola Edge 50 Ultra VIP", geral: "100", reddot: "97", m2x: "100", m4x: "98", dpi: "DPI: 710", regedit: "moto_ultra_stabilizer=true" }
+            ]
+        }
+    };
+
+    let marcaAtual = '';
+
+    function abrirModelos(marca) {
+        marcaAtual = marca;
+        const dados = marcasDados[marca];
+        
+        document.getElementById('titulo-marcas-modelos').innerText = dados.titulo;
+        
+        const containerBotoes = document.getElementById('lista-botoes-modelos');
+        containerBotoes.innerHTML = '';
+        
+        document.getElementById('resultado').style.display = 'none';
+
+        dados.modelos.forEach((mod, index) => {
+            const botao = document.createElement('button');
+            botao.className = 'btn-modelo';
+            botao.innerText = mod.nome;
+            botao.onclick = function() { mostrarSensiModelo(index); };
+            containerBotoes.appendChild(botao);
+        });
+
+        document.getElementById('conteudo-vip').style.display = 'none';
+        document.getElementById('area-modelos').style.display = 'block';
+    }
+
+    function mostrarSensiModelo(index) {
+        const modeloEscolhido = marcasDados[marcaAtual].modelos[index];
+        
+        document.getElementById('titulo-modelo-escolhido').innerText = "🎯 " + modeloEscolhido.nome.toUpperCase();
+        document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
+        document.getElementById('sensi-reddot').innerText = "RedDot: " + modeloEscolhido.reddot;
+        document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
+        document.getElementById('sensi-4x').innerText = "Mira 4x: " + modeloEscolhido.m4x;
+        document.getElementById('sensi-dpi').innerText = modeloEscolhido.dpi;
+        document.getElementById('sensi-regedit').innerText = modeloEscolhido.regedit;
+        
+        document.getElementById('resultado').style.display = 'block';
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function voltarParaMarcas() {
+        document.getElementById('area-modelos').style.display = 'none';
+        document.getElementById('conteudo-vip').style.display = 'block';
+    }
+</script>
+
+</body>
+</html>
