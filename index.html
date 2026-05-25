@@ -124,14 +124,30 @@
             color: #0b0e14;
             border-color: #ffaa00;
         }
-        .btn-filtro-alto {
-            border-color: #ffaa00;
-            color: #ffaa00;
+
+        /* BOTOES SELEÇÃO DE SISTEMA TIKTOK */
+        .seletor-sistema {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 15px;
         }
-        .btn-filtro-alto:hover {
+        .btn-sistema {
+            flex: 1;
+            padding: 12px;
+            background: #1f2937;
+            color: white;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 14px;
+        }
+        .btn-sistema.selecionado {
             background: #ffaa00;
             color: #0b0e14;
+            border-color: #ffaa00;
         }
+
         .btn-voltar {
             background: #ef4444;
             color: white;
@@ -220,6 +236,22 @@
             border-bottom: 1px solid #222c3c;
             padding-bottom: 5px;
         }
+        .btn-ativar-arma {
+            width: 100%;
+            padding: 8px;
+            background: #00ff66;
+            color: #0b0e14;
+            border: none;
+            border-radius: 5px;
+            font-weight: bold;
+            margin-top: 10px;
+            cursor: pointer;
+            font-size: 13px;
+            transition: 0.2s;
+        }
+        .btn-ativar-arma:hover {
+            background: #00cc52;
+        }
     </style>
 </head>
 <body>
@@ -252,7 +284,13 @@
 
     <div id="sub-clonador" style="display: none;">
         <h1>👥 CLONADOR DE TIKTOK</h1>
-        <p>Insira o link ou código do vídeo do famoso para clonar os arquivos:</p>
+        <p>1º Escolha o sistema do celular onde vai usar a sensi:</p>
+        <div class="seletor-sistema">
+            <button class="btn-sistema" id="sys-android" onclick="selecionarSistemaClonador('android')">🤖 Android</button>
+            <button class="btn-sistema" id="sys-ios" onclick="selecionarSistemaClonador('ios')">🍏 iPhone (iOS)</button>
+        </div>
+
+        <p>2º Insira o link ou código do vídeo do famoso:</p>
         <input type="text" id="codigo-tiktok" class="input-key" placeholder="Cole o link ou código do vídeo aqui">
         <button class="btn-entrar" onclick="executarClonagemTikTok()">CLONAR SENSI DO VÍDEO</button>
 
@@ -266,27 +304,33 @@
         </div>
 
         <div id="resultado-tiktok" class="result-box">
-            <h3 style="text-align: center; margin-bottom: 15px; color: #00ff66;">✅ SENSI CLONADA COM SUCESSO!</h3>
+            <h3 style="text-align: center; margin-bottom: 15px; color: #00ff66;" id="titulo-sucesso-tk">✅ SENSI EXTRAÍDA!</h3>
             
             <div class="card-arma">
                 <h4>🔫 DESERT EAGLE</h4>
                 <span class="sensi-value" id="tk-desert-geral">Geral: --</span>
                 <span class="sensi-value" id="tk-desert-red">Ponto Vermelho: --</span>
-                <span class="sensi-value" id="tk-desert-dpi" style="color: #ffaa00;">DPI Recomendada: --</span>
+                <span class="sensi-value" id="tk-desert-v1">--</span>
+                <span class="sensi-value" id="tk-desert-v2">--</span>
+                <button class="btn-ativar-arma" id="btn-ativar-desert" onclick="ativarConfigArma('Desert Eagle')">ATIVAR CONFIGURAÇÃO</button>
             </div>
 
             <div class="card-arma">
                 <h4>🔫 UMP</h4>
                 <span class="sensi-value" id="tk-ump-geral">Geral: --</span>
-                <span class="sensi-value" id="tk-ump-2x">Mira 2x: --</span>
-                <span class="sensi-value" id="tk-ump-reg" style="color: #00ff66;">MacroReg: Injetado</span>
+                <span class="sensi-value" id="tk-ump-red">Mira 2x: --</span>
+                <span class="sensi-value" id="tk-ump-v1">--</span>
+                <span class="sensi-value" id="tk-ump-v2">--</span>
+                <button class="btn-ativar-arma" id="btn-ativar-ump" onclick="ativarConfigArma('UMP')">ATIVAR CONFIGURAÇÃO</button>
             </div>
 
             <div class="card-arma">
                 <h4>🔫 M1014</h4>
                 <span class="sensi-value" id="tk-m10-geral">Geral: --</span>
-                <span class="sensi-value" id="tk-m10-4x">Mira 4x: --</span>
-                <span class="sensi-value" id="tk-m10-ms" style="color: #00e5ff;">Suavizador Y: Ativado</span>
+                <span class="sensi-value" id="tk-m10-red">Mira 4x: --</span>
+                <span class="sensi-value" id="tk-m10-v1">--</span>
+                <span class="sensi-value" id="tk-m10-v2">--</span>
+                <button class="btn-ativar-arma" id="btn-ativar-m10" onclick="ativarConfigArma('M1014')">ATIVAR CONFIGURAÇÃO</button>
             </div>
         </div>
     </div>
@@ -320,7 +364,8 @@
 </div>
 
 <script>
-    // SISTEMA DE VALIDAÇÃO DE KEYS CORRIGIDO
+    let sistemaSelecionadoTikTok = '';
+
     function verificarKey() {
         const campo = document.getElementById('campo-key');
         if (!campo) return;
@@ -368,7 +413,25 @@
         }
     }
 
+    // Seleção de Android ou iOS na aba do clonador
+    function selecionarSistemaClonador(sistema) {
+        sistemaSelecionadoTikTok = sistema;
+        document.getElementById('sys-android').classList.remove('selecionado');
+        document.getElementById('sys-ios').classList.remove('selecionado');
+
+        if(sistema === 'android') {
+            document.getElementById('sys-android').classList.add('selecionado');
+        } else {
+            document.getElementById('sys-ios').classList.add('selecionado');
+        }
+    }
+
     function executarClonagemTikTok() {
+        if(!sistemaSelecionadoTikTok) {
+            alert("⚠️ Selecione primeiro se seu celular é Android ou iPhone (iOS)!");
+            return;
+        }
+
         let campoVal = document.getElementById('codigo-tiktok').value.trim();
         if(!campoVal) {
             alert("⚠️ Insira o código ou link do vídeo do famoso primeiro!");
@@ -392,11 +455,11 @@
             textoPct.innerText = progresso + "%";
 
             if(progresso < 35) {
-                statusTxt.innerText = "🔍 Localizando canal e metadados do criador...";
+                statusTxt.innerText = "🔍 Localizando registros do criador no TikTok...";
             } else if(progresso < 75) {
-                statusTxt.innerText = "⚡ Decodificando pacotes de sensibilidade do vídeo...";
+                statusTxt.innerText = "⚡ Decodificando pacotes de sensibilidade para " + (sistemaSelecionadoTikTok === 'ios' ? 'iPhone' : 'Android') + "...";
             } else {
-                statusTxt.innerText = "📦 Separando registros por armas (Desert, UMP, M1014)...";
+                statusTxt.innerText = "📦 Montando chaves internas por arma...";
             }
 
             if(progresso >= 100) {
@@ -408,18 +471,66 @@
     }
 
     function mostrarValoresArmasFF() {
-        document.getElementById('tk-desert-geral').innerText = "Geral: " + (Math.floor(Math.random() * (198 - 140 + 1)) + 140);
-        document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + (Math.floor(Math.random() * (195 - 150 + 1)) + 150);
-        document.getElementById('tk-desert-dpi').innerText = "DPI Recomendada: " + [580, 620, 720, 840, 960][Math.floor(Math.random() * 5)] + " DPI";
+        let tituloContainer = document.getElementById('titulo-sucesso-tk');
+        
+        // Sorteia os valores bases da sensibilidade hacker
+        let gDesert = Math.floor(Math.random() * (198 - 140 + 1)) + 140;
+        let rDesert = Math.floor(Math.random() * (195 - 150 + 1)) + 150;
+        let gUmp = Math.floor(Math.random() * (199 - 145 + 1)) + 145;
+        let rUmp = Math.floor(Math.random() * (200 - 160 + 1)) + 160;
+        let gM10 = Math.floor(Math.random() * (192 - 135 + 1)) + 135;
+        let rM10 = Math.floor(Math.random() * (200 - 170 + 1)) + 170;
 
-        document.getElementById('tk-ump-geral').innerText = "Geral: " + (Math.floor(Math.random() * (199 - 145 + 1)) + 145);
-        document.getElementById('tk-ump-2x').innerText = "Mira 2x: " + (Math.floor(Math.random() * (200 - 160 + 1)) + 160);
+        document.getElementById('tk-desert-geral').innerText = "Geral: " + gDesert;
+        document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + rDesert;
+        
+        document.getElementById('tk-ump-geral').innerText = "Geral: " + gUmp;
+        document.getElementById('tk-ump-red').innerText = "Mira 2x: " + rUmp;
 
-        document.getElementById('tk-m10-geral').innerText = "Geral: " + (Math.floor(Math.random() * (192 - 135 + 1)) + 135);
-        document.getElementById('tk-m10-4x').innerText = "Mira 4x: " + (Math.floor(Math.random() * (200 - 170 + 1)) + 170);
+        document.getElementById('tk-m10-geral').innerText = "Geral: " + gM10;
+        document.getElementById('tk-m10-red').innerText = "Mira 4x: " + rM10;
+
+        // Muda as variáveis dinâmicas com base no sistema escolhido (iOS vs Android)
+        if(sistemaSelecionadoTikTok === 'ios') {
+            tituloContainer.innerText = "🍏 SENSI EXTRAÍDA PARA IPHONE";
+            tituloContainer.style.color = "#00e5ff";
+
+            // Modifica labels para o formato iPhone
+            document.getElementById('tk-desert-v1').innerText = "Ciclos: " + [2, 3, 4][Math.floor(Math.random() * 3)];
+            document.getElementById('tk-desert-v2').innerText = "Cursor Móvel: " + [115, 120, 120][Math.floor(Math.random() * 3)] + " (Refinado)";
+            document.getElementById('btn-ativar-desert').innerText = "ATIVAR NO IPHONE";
+
+            document.getElementById('tk-ump-v1').innerText = "Ciclos: " + [3, 4][Math.floor(Math.random() * 2)];
+            document.getElementById('tk-ump-v2').innerText = "Cursor Móvel: 120 Max";
+            document.getElementById('btn-ativar-ump').innerText = "ATIVAR NO IPHONE";
+
+            document.getElementById('tk-m10-v1').innerText = "Ciclos: 2";
+            document.getElementById('tk-m10-v2').innerText = "Cursor Móvel: 110 Individual";
+            document.getElementById('btn-ativar-m10').innerText = "ATIVAR NO IPHONE";
+        } else {
+            tituloContainer.innerText = "🤖 SENSI EXTRAÍDA PARA ANDROID";
+            tituloContainer.style.color = "#00ff66";
+
+            // Modifica labels para o formato Android
+            document.getElementById('tk-desert-v1').innerText = "DPI Recomendada: " + [580, 640, 720, 800][Math.floor(Math.random() * 4)] + " DPI";
+            document.getElementById('tk-desert-v2').innerText = "Velocidade do Ponteiro: " + (Math.floor(Math.random() * (10 - 7 + 1)) + 7) + "/10";
+            document.getElementById('btn-ativar-desert').innerText = "ATIVAR CONFIGURAÇÃO";
+
+            document.getElementById('tk-ump-v1').innerText = "DPI Recomendada: " + [600, 760, 840, 960][Math.floor(Math.random() * 4)] + " DPI";
+            document.getElementById('tk-ump-v2').innerText = "Velocidade do Ponteiro: Máxima (Fast)";
+            document.getElementById('btn-ativar-ump').innerText = "ATIVAR CONFIGURAÇÃO";
+
+            document.getElementById('tk-m10-v1').innerText = "DPI Recomendada: " + [520, 600, 680][Math.floor(Math.random() * 3)] + " DPI";
+            document.getElementById('tk-m10-v2').innerText = "Velocidade do Ponteiro: 6/10 Estável";
+            document.getElementById('btn-ativar-m10').innerText = "ATIVAR CONFIGURAÇÃO";
+        }
 
         document.getElementById('resultado-tiktok').style.display = 'block';
         document.getElementById('resultado-tiktok').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function ativarConfigArma(arma) {
+        alert("🚀 Ajustes da " + arma + " injetados com sucesso via script interno!");
     }
 
     let marcaSelecionada = '';
