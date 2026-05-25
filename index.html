@@ -300,7 +300,7 @@
 
         <p>2º Insira o link ou código do vídeo do famoso:</p>
         <input type="text" id="codigo-tiktok" class="input-key" placeholder="Cole o link ou código do vídeo aqui">
-        <button class="btn-entrar" onclick="ejecutarClonagemTikTok()">CLONAR SENSI DO VÍDEO</button>
+        <button class="btn-entrar" onclick="executarClonagemTikTok()">CLONAR SENSI DO VÍDEO</button>
 
         <div class="loading-container" id="loader-tiktok">
             <div class="avatar-tiktok" id="avatar-dinamico"></div>
@@ -380,7 +380,6 @@
         document.getElementById('tab-clonar').classList.remove('ativo');
         document.getElementById('tab-auxilio').classList.remove('ativo');
         
-        // CORREÇÃO CRÍTICA: Força fechar as sub-telas do gerador antes de ir pro clonador
         document.getElementById('area-filtro').style.display = 'none';
         document.getElementById('area-modelos').style.display = 'none';
         
@@ -415,7 +414,7 @@
         }
     }
 
-    function ejecutarClonagemTikTok() {
+    function executarClonagemTikTok() {
         if(!sistemaSelecionadoTikTok) {
             alert("⚠️ Selecione primeiro se seu celular é Android ou iPhone (iOS)!");
             return;
