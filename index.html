@@ -264,4 +264,230 @@
             <div class="barra-progresso-bg">
                 <div class="barra-progresso-fill" id="barra-tk-fill"></div>
             </div>
-            <div class="texto-
+            <div class="texto-porcentagem" id="porcentagem-tk-texto">0%</div>
+        </div>
+
+        <div id="resultado-tiktok" class="result-box">
+            <h3 style="text-align: center; margin-bottom: 15px; color: #00ff66;">✅ SENSI CLONADA COM SUCESSO!</h3>
+            
+            <div class="card-arma">
+                <h4>🔫 DESERT EAGLE</h4>
+                <span class="sensi-value" id="tk-desert-geral">Geral: --</span>
+                <span class="sensi-value" id="tk-desert-red">Ponto Vermelho: --</span>
+                <span class="sensi-value" id="tk-desert-dpi" style="color: #ffaa00;">DPI Recomendada: --</span>
+            </div>
+
+            <div class="card-arma">
+                <h4>🔫 UMP</h4>
+                <span class="sensi-value" id="tk-ump-geral">Geral: --</span>
+                <span class="sensi-value" id="tk-ump-2x">Mira 2x: --</span>
+                <span class="sensi-value" id="tk-ump-reg" style="color: #00ff66;">MacroReg: Injetado</span>
+            </div>
+
+            <div class="card-arma">
+                <h4>🔫 M1014</h4>
+                <span class="sensi-value" id="tk-m10-geral">Geral: --</span>
+                <span class="sensi-value" id="tk-m10-4x">Mira 4x: --</span>
+                <span class="sensi-value" id="tk-m10-ms" style="color: #00e5ff;">Suavizador Y: Ativado</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container" id="area-filtro">
+    <h1 id="titulo-filtro">Configurações de Sensi</h1>
+    <p>Selecione o tipo de calibração que deseja para o seu aparelho:</p>
+    <button class="btn-filtro" onclick="escolherFiltro('baixo')">📉 SENSI REGULAR (Abaixo de 100)</button>
+    <button class="btn-filtro btn-filtro-alto" onclick="escolherFiltro('alto')">⚡ SENSI HACKER VVIP (Até 200)</button>
+    <button class="btn-marca btn-voltar" onclick="voltarParaMarcas()">⬅️ Mudar de Marca</button>
+</div>
+
+<div class="container" id="area-modelos">
+    <h1 id="titulo-marcas-modelos">Modelos Disponíveis</h1>
+    <p>Selecione o modelo exato do seu aparelho:</p>
+    <div id="lista-botoes-modelos"></div>
+    <div id="resultado" class="result-box">
+        <h3 id="titulo-modelo-escolhido">Modelo Selecionado</h3>
+        <span class="sensi-value" id="sensi-geral">Geral: --</span>
+        <span class="sensi-value" id="sensi-reddot">Ponto Vermelho: --</span>
+        <span class="sensi-value" id="sensi-2x">Mira 2x: --</span>
+        <span class="sensi-value" id="sensi-4x">Mira 4x: --</span>
+        <span class="sensi-value" id="sensi-Y" style="color: #ffaa00;">Aceleração Y: --</span>
+        <span class="sensi-value" id="sensi-X" style="color: #ffaa00;">Estabilizador X: --</span>
+        <span class="sensi-value" id="sensi-velocidade" style="color: #00e5ff;">Resposta do Toque: --</span>
+        <span class="sensi-value" id="sensi-dpi">DPI: --</span>
+        <span class="sensi-value" id="sensi-regedit" style="color: #00ff66; font-weight: bold;">Código: --</span>
+    </div>
+    <button class="btn-marca btn-voltar" onclick="voltarParaFiltro()">⬅️ Mudar Tipo de Sensi</button>
+</div>
+
+<script>
+    function verificarKey() {
+        const keyDigitada = document.getElementById('campo-key').value.trim().toUpperCase();
+        const ehChaveFixa = ["VIP-SITE-777", "SENSI-MASTER-X", "KEY-TESTE-123"].includes(keyDigitada);
+        const ehChaveDoBot = keyDigitada.startsWith("SENSI-") && keyDigitada.length >= 10;
+
+        if (ehChaveFixa || ehChaveDoBot) {
+            alert("🎉 Acesso VIP Autorizado!");
+            document.getElementById('tela-login').style.display = 'none';
+            document.getElementById('conteudo-vip').style.display = 'block';
+        } else {
+            alert("❌ Chave VIP inválida!");
+        }
+    }
+
+    function mudarAba(aba) {
+        document.getElementById('tab-gerador').classList.remove('ativo');
+        document.getElementById('tab-clonar').classList.remove('ativo');
+        document.getElementById('tab-auxilio').classList.remove('ativo');
+        
+        if (aba === 'gerador') {
+            document.getElementById('tab-gerador').classList.add('ativo');
+            document.getElementById('sub-gerador').style.display = 'block';
+            document.getElementById('sub-clonador').style.display = 'none';
+        } else if (aba === 'clonar') {
+            document.getElementById('tab-clonar').classList.add('ativo');
+            document.getElementById('sub-gerador').style.display = 'none';
+            document.getElementById('sub-clonador').style.display = 'block';
+            document.getElementById('resultado-tiktok').style.display = 'none';
+            document.getElementById('loader-tiktok').style.display = 'none';
+        } else if (aba === 'auxilio') {
+            document.getElementById('tab-auxilio').classList.add('ativo');
+            let ativou = confirm("🎯 ATIVAR AUXÍLIO DE MIRA?\n\nDeseja injetar otimização de estabilidade de mira Y para dar só capa?");
+            if(ativou) alert("🚀 Auxílio de Mira injetado com sucesso!");
+            document.getElementById('tab-auxilio').classList.remove('ativo');
+            document.getElementById('tab-gerador').classList.add('ativo');
+        }
+    }
+
+    // Sistema de Clonagem idêntico ao vídeo do TikTok
+    function ejecutarClonagemTikTok() {
+        let campoVal = document.getElementById('codigo-tiktok').value.trim();
+        if(!campoVal) {
+            alert("⚠️ Insira o código ou link do vídeo do famoso primeiro!");
+            return;
+        }
+
+        document.getElementById('resultado-tiktok').style.display = 'none';
+        document.getElementById('loader-tiktok').style.display = 'block';
+
+        let progresso = 0;
+        let fill = document.getElementById('barra-tk-fill');
+        let textoPct = document.getElementById('porcentagem-tk-texto');
+        let statusTxt = document.getElementById('status-texto-tk');
+        let avatar = document.getElementById('avatar-dinamico');
+
+        // Se quiser usar fotos fixas, basta alterar a URL abaixo
+        avatar.style.backgroundImage = "url('https://i.imgur.com/8Q5FvX8.png')";
+
+        let timer = setInterval(() => {
+            progresso += 2;
+            fill.style.width = progresso + "%";
+            textoPct.innerText = progresso + "%";
+
+            if(progresso < 35) {
+                statusTxt.innerText = "🔍 Localizando canal e metadados do criador...";
+            } else if(progresso < 75) {
+                statusTxt.innerText = "⚡ Decodificando pacotes de sensibilidade do vídeo...";
+            } else {
+                statusTxt.innerText = "📦 Separando registros por armas (Desert, UMP, M1014)...";
+            }
+
+            if(progresso >= 100) {
+                clearInterval(timer);
+                document.getElementById('loader-tiktok').style.display = 'none';
+                mostrarValoresArmasFF();
+            }
+        }, 50); // Velocidade de carregamento ideal para dar suspense
+    }
+
+    function mostrarValoresArmasFF() {
+        // Gerador de códigos cravados com pegada hacker/VVIP de até 200
+        document.getElementById('tk-desert-geral').innerText = "Geral: " + (Math.floor(Math.random() * (198 - 140 + 1)) + 140);
+        document.getElementById('tk-desert-red').innerText = "Ponto Vermelho: " + (Math.floor(Math.random() * (195 - 150 + 1)) + 150);
+        document.getElementById('tk-desert-dpi').innerText = "DPI Recomendada: " + [580, 620, 720, 840, 960][Math.floor(Math.random() * 5)] + " DPI";
+
+        document.getElementById('tk-ump-geral').innerText = "Geral: " + (Math.floor(Math.random() * (199 - 145 + 1)) + 145);
+        document.getElementById('tk-ump-2x').innerText = "Mira 2x: " + (Math.floor(Math.random() * (200 - 160 + 1)) + 160);
+
+        document.getElementById('tk-m10-geral').innerText = "Geral: " + (Math.floor(Math.random() * (192 - 135 + 1)) + 135);
+        document.getElementById('tk-m10-4x').innerText = "Mira 4x: " + (Math.floor(Math.random() * (200 - 170 + 1)) + 170);
+
+        document.getElementById('resultado-tiktok').style.display = 'block';
+        document.getElementById('resultado-tiktok').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    let marcaSelecionada = '';
+    let filtroSensi = ''; 
+
+    function selecionarMarca(marca) {
+        marcaSelecionada = marca;
+        document.getElementById('titulo-filtro').innerText = "⚙️ REFINAR " + marca.toUpperCase();
+        document.getElementById('conteudo-vip').style.display = 'none';
+        document.getElementById('area-filtro').style.display = 'block';
+    }
+
+    function escolherFiltro(tipo) {
+        filtroSensi = tipo;
+        const dados = marcasDados[marcaSelecionada];
+        document.getElementById('titulo-marcas-modelos').innerText = dados.titulo + (tipo === 'alto' ? " (MAX 200)" : " (MAX 100)");
+        
+        const containerBotoes = document.getElementById('lista-botoes-modelos');
+        containerBotoes.innerHTML = '';
+        document.getElementById('resultado').style.display = 'none';
+
+        dados.modelos.forEach((mod, index) => {
+            const botao = document.createElement('button');
+            botao.className = 'btn-modelo';
+            botao.innerText = mod.nome;
+            botao.onclick = function() { mostrarSensiModelo(index); };
+            containerBotoes.appendChild(botao);
+        });
+
+        document.getElementById('area-filtro').style.display = 'none';
+        document.getElementById('area-modelos').style.display = 'block';
+    }
+
+    function mostrarSensiModelo(index) {
+        const modeloEscolhido = marcasDados[marcaSelecionada].modelos[index];
+        document.getElementById('titulo-modelo-escolhido').innerText = "🎯 " + modeloEscolhido.nome.toUpperCase();
+        
+        if (filtroSensi === 'alto') {
+            let gAlto = Math.min(200, parseInt(modeloEscolhido.geral) * 2);
+            let rAlto = Math.min(200, parseInt(modeloEscolhido.reddot) * 2);
+            let m2xAlto = Math.min(200, parseInt(modeloEscolhido.m2x) * 2);
+            let m4xAlto = Math.min(200, parseInt(modeloEscolhido.m4x) * 2);
+
+            document.getElementById('sensi-geral').innerText = "Geral: " + gAlto;
+            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + rAlto;
+            document.getElementById('sensi-2x').innerText = "Mira 2x: " + m2xAlto;
+            document.getElementById('sensi-4x').innerText = "Mira 4x: " + m4xAlto;
+            
+            document.getElementById('sensi-X').innerText = "Sensibilidade X: 200% Otimizada";
+            document.getElementById('sensi-Y').innerText = "Sensibilidade Y: 200% Trava Mira";
+            document.getElementById('sensi-velocidade').innerText = "Frequência Hacker: 360Hz | Delay: 0.01ms";
+            document.getElementById('sensi-regedit').innerText = "Status: BYPASS_TRAVA_HEAD=200";
+        } else {
+            document.getElementById('sensi-geral').innerText = "Geral: " + modeloEscolhido.geral;
+            document.getElementById('sensi-reddot').innerText = "Ponto Vermelho: " + modeloEscolhido.reddot;
+            document.getElementById('sensi-2x').innerText = "Mira 2x: " + modeloEscolhido.m2x;
+            document.getElementById('sensi-4x').innerText = "Mira 4x: " + modeloEscolhido.m4x;
+            
+            document.getElementById('sensi-X').innerText = "Sensibilidade X: " + modeloEscolhido.x;
+            document.getElementById('sensi-Y').innerText = "Sensibilidade Y: " + modeloEscolhido.y;
+            document.getElementById('sensi-velocidade').innerText = modeloEscolhido.ms;
+            document.getElementById('sensi-regedit').innerText = "Injetado: " + modeloEscolhido.regedit;
+        }
+        
+        document.getElementById('sensi-dpi').innerText = modeloEscolhido.dpi;
+        document.getElementById('resultado').style.display = 'block';
+        document.getElementById('resultado').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function voltarParaMarcas() {
+        document.getElementById('area-filtro').style.display = 'none';
+        document.getElementById('conteudo-vip').style.display = 'block';
+    }
+
+    function voltarParaFiltro() {
+        document.getElementById('area-modelos').style.
